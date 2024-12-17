@@ -1,5 +1,8 @@
 
 import javax.swing.JOptionPane;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.sql.*;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -116,6 +119,11 @@ public class LoginPanel extends javax.swing.JFrame {
         lblPassword.setText("Password");
 
         txtPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPasswordActionPerformed(evt);
+            }
+        });
 
         LoginBtn.setBackground(new java.awt.Color(102, 153, 255));
         LoginBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -192,28 +200,59 @@ public class LoginPanel extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    public void login() {
+        String username = txtUsername.getText();
+        String password = String.valueOf(txtPassword.getPassword());
+        
+        String url = "jdbc:mysql://localhost:3306/pboposdb"; // table details
+        String username_db = "root";
+        String password_db = "";
+        String query = "select * from users where username = '" + username + "'"; // query to be run
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver"); // Driver name
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(LoginPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(url, username_db, password_db);
+            System.out.println("Connection Established successfully");
+        
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query); // Execute query
+            
+            while(rs.next()) {
+                username_db = rs.getString("username"); // Retrieve name from db
+                password_db = rs.getString("password"); // retrive password from db
+            }
+            
+            st.close(); // close statement
+            con.close(); // close connection
+            System.out.println("Connection Closed....");
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(username.equals(username_db) && password.equals(password_db)) {
+            JOptionPane.showMessageDialog(this, "Login successful!"); 
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid username or password.", "Error", JOptionPane.ERROR_MESSAGE); 
+        }
+    }
+    
+    private void LoginBtnKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_LoginBtnKeyPressed
+        login();
+    }//GEN-LAST:event_LoginBtnKeyPressed
+
+    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
+        login();
+    }//GEN-LAST:event_txtPasswordActionPerformed
 
     private void LoginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginBtnActionPerformed
-        String username = txtUsername.getText();
-        String password = String.valueOf(txtPassword.getPassword());
-        
-        if(username.equals("admin") && password.equals("admin123")) {
-            JOptionPane.showMessageDialog(this, "Login successful!"); 
-        } else {
-            JOptionPane.showMessageDialog(this, "Invalid username or password.", "Error", JOptionPane.ERROR_MESSAGE); 
-        }
+        login();
     }//GEN-LAST:event_LoginBtnActionPerformed
-
-    private void LoginBtnKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_LoginBtnKeyPressed
-        String username = txtUsername.getText();
-        String password = String.valueOf(txtPassword.getPassword());
-        
-        if(username.equals("admin") && password.equals("admin123")) {
-            JOptionPane.showMessageDialog(this, "Login successful!"); 
-        } else {
-            JOptionPane.showMessageDialog(this, "Invalid username or password.", "Error", JOptionPane.ERROR_MESSAGE); 
-        }
-    }//GEN-LAST:event_LoginBtnKeyPressed
 
     /**
      * @param args the command line arguments
