@@ -204,41 +204,64 @@ public class LoginPanel extends javax.swing.JFrame {
     public void login() {
         String username = txtUsername.getText();
         String password = String.valueOf(txtPassword.getPassword());
+        boolean isAdmin = false;
+
+        String url = "jdbc:mysql://localhost:3306/pboposdb";
+        String user_db = "root";
+        String pass_db = "";
         
-        String url = "jdbc:mysql://localhost:3306/pboposdb"; // table details
-        String username_db = "root";
-        String password_db = "";
-        String query = "select * from users where username = '" + username + "'"; // query to be run
+        String query = "SELECT users.username, users.password, roles.isAdmin " +
+                       "FROM users " +
+                       "INNER JOIN roles ON users.roles_id = roles.roles_id " +
+                       "WHERE username = ?";
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); // Driver name
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(LoginPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        Connection con = null;
-        try {
-            con = DriverManager.getConnection(url, username_db, password_db);
-            System.out.println("Connection Established successfully");
-        
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query); // Execute query
+            // Load the MySQL JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection(url, user_db, pass_db);
             
-            while(rs.next()) {
-                username_db = rs.getString("username"); // Retrieve name from db
-                password_db = rs.getString("password"); // retrive password from db
+            System.out.println("Connection Established successfully");
+            
+             // Use PreparedStatement to prevent SQL injection
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, username); // Set the parameter for the query
+
+            ResultSet rs = pst.executeQuery();
+            
+            String dbUsername = null;
+            String dbPassword = null;
+            
+            if(rs.next()) {
+                dbUsername = rs.getString("username");
+                dbPassword = rs.getString("password");
+                isAdmin = rs.getBoolean("isAdmin");
             }
             
-            st.close(); // close statement
-            con.close(); // close connection
-            System.out.println("Connection Closed....");
-        } catch (SQLException ex) {
+            // Close resources
+            rs.close();
+            pst.close();
+            con.close();
+            System.out.println("Connection Closed.");
+            
+            // Check if the username and password match
+            if (username.equals(dbUsername) && password.equals(dbPassword)) {
+                JOptionPane.showMessageDialog(this, "Login successful!");
+
+                if (isAdmin) {
+                    Admin adminPage = new Admin();
+                    adminPage.setVisible(true);
+                    this.setVisible(false);
+                } else {
+                    User userPage = new User();
+                    userPage.setVisible(true);
+                    this.setVisible(false);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid username or password.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(LoginPanel.class.getName()).log(Level.SEVERE, "MySQL Driver not found", ex);
+        }  catch (SQLException ex) {
             Logger.getLogger(LoginPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        if(username.equals(username_db) && password.equals(password_db)) {
-            JOptionPane.showMessageDialog(this, "Login successful!"); 
-        } else {
-            JOptionPane.showMessageDialog(this, "Invalid username or password.", "Error", JOptionPane.ERROR_MESSAGE); 
         }
     }
     
