@@ -261,7 +261,7 @@ public class LoginPanel extends javax.swing.JFrame {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(LoginPanel.class.getName()).log(Level.SEVERE, "MySQL Driver not found", ex);
         }  catch (SQLException ex) {
-            Logger.getLogger(LoginPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginPanel.class.getName()).log(Level.SEVERE, "SQL Error", ex);
         }
     }
     
