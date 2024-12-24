@@ -1,4 +1,3 @@
-
 import java.awt.Color;
 import java.awt.Font;
 import static java.awt.SystemColor.TEXT;
@@ -205,16 +204,16 @@ public class SalesAdmin extends javax.swing.JFrame {
 
         tableBarang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(1), null, null, null, null, null, null},
-                { new Integer(2), null, null, null, null, null, null},
-                { new Integer(3), null, null, null, null, null, null},
-                { new Integer(4), null, null, null, null, null, null},
-                { new Integer(5), null, null, null, null, null, null},
-                { new Integer(6), null, null, null, null, null, null},
-                { new Integer(7), null, null, null, null, null, null},
-                { new Integer(8), null, null, null, null, null, null},
-                { new Integer(9), null, null, null, null, null, null},
-                { new Integer(10), null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -373,9 +372,9 @@ public class SalesAdmin extends javax.swing.JFrame {
 
         tableKeranjang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Notebook",  new Integer(10),  new Double(5000000.0)},
-                {"Mouse",  new Integer(10),  new Double(50000.0)},
-                {"Keyboard",  new Integer(10),  new Double(100000.0)}
+                {"", null, null},
+                {"", null, null},
+                {"", null, null}
             },
             new String [] {
                 "Barang", "Qty", "Jumlah"
@@ -665,13 +664,13 @@ public class SalesAdmin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Sales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SalesAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Sales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SalesAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Sales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SalesAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Sales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SalesAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
