@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class koneksi {
-    private String url="jdbc:mysql://localhost:3306/pbo-pos?zeroDateTimeBehavior=CONVERT_TO_NULL";
+    private String url="jdbc:mysql://localhost:3306/pboposdb?zeroDateTimeBehavior=CONVERT_TO_NULL";
     private String user = "root";
     private String password = "";
     private Connection conn;
