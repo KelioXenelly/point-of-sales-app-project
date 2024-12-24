@@ -1,7 +1,9 @@
 import javax.swing.JOptionPane;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -19,6 +21,9 @@ public class SalesAdmin extends javax.swing.JFrame {
      */
     public SalesAdmin() {
         initComponents();
+        currentDate();
+        addPlaceHolderStyle(jumlahTxt);
+        addPlaceHolderStyle(diskonTxt1);
     }
 
     /**
@@ -135,7 +140,7 @@ public class SalesAdmin extends javax.swing.JFrame {
                 .addComponent(transaksiBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(kelolaPenggunaBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
+
                 .addComponent(logoutBtn4)
                 .addGap(34, 34, 34))
         );
@@ -178,7 +183,13 @@ public class SalesAdmin extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel12.setText("Jumlah:");
 
+        jumlahTxt.setText("Masukkan Jumlah");
         jumlahTxt.setToolTipText("");
+        jumlahTxt.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jumlahTxtFocusGained(evt);
+            }
+        });
 
         minusBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         minusBtn.setText("-");
@@ -274,11 +285,13 @@ public class SalesAdmin extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(pilihBarangDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(currentDatelbl, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pilihBarangDropDown, javax.swing.GroupLayout.Alignment.LEADING, 0, 235, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
                             .addGroup(jPanel7Layout.createSequentialGroup()
@@ -286,21 +299,16 @@ public class SalesAdmin extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(minusBtn)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(plusBtn))))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(currentDatelbl, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(currentDatelbl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(currentDatelbl)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pilihBarangDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -312,7 +320,7 @@ public class SalesAdmin extends javax.swing.JFrame {
                             .addComponent(plusBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jumlahTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -348,6 +356,9 @@ public class SalesAdmin extends javax.swing.JFrame {
                 .addComponent(kembalianLbl)
                 .addGap(28, 28, 28))
         );
+
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel15.setText("Keranjang:");
@@ -457,9 +468,6 @@ public class SalesAdmin extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel14.setText("Bayar:");
 
-        diskonTxt1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                diskonTxt1ActionPerformed(evt);
             }
         });
 
@@ -505,7 +513,7 @@ public class SalesAdmin extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(diskonTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(prosesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 13, Short.MAX_VALUE))
+                        .addGap(0, 11, Short.MAX_VALUE))
                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -524,6 +532,12 @@ public class SalesAdmin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
+//    private void placeHolder() {
+//        if(jumlahTxt != null) {
+//            jumlahTxt.putClientProperty(FlatClientProperties.PLACEHOLDER TEXT, "username");
+//        }
+//    }
+    
     public void logout() {
         JOptionPane.showMessageDialog(null, "You have been logged out.");
 
@@ -537,6 +551,26 @@ public class SalesAdmin extends javax.swing.JFrame {
         
         // Optional: Dispose of the current window to free up resources
         this.dispose();
+    }
+    
+    public void currentDate() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDateTime now = LocalDateTime.now();
+        currentDatelbl.setText(dtf.format(now));
+    }
+    
+    public void addPlaceHolderStyle(JTextField textField) {
+        Font font = textField.getFont();
+        font = font.deriveFont(Font.ITALIC);
+        textField.setFont(font);
+        textField.setForeground(Color.gray);
+    }
+    
+    public void removePlaceHolderStyle(JTextField textField) {
+        Font font = textField.getFont();
+        font = font.deriveFont(Font.PLAIN|Font.BOLD);
+        textField.setFont(font);
+        textField.setForeground(Color.black);
     }
     
     private void salesBtn4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salesBtn4MouseClicked
@@ -568,7 +602,7 @@ public class SalesAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_kelolaBarangBtnMouseClicked
 
     private void kelolaPenggunaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaPenggunaBtnMouseClicked
-      // Create an instance of Sales
+        // Create an instance of Sales
         KelolaPengguna kelolaPenggunaPage = new KelolaPengguna();
         kelolaPenggunaPage.setVisible(true);
         kelolaPenggunaPage.setLocationRelativeTo(null);
@@ -586,10 +620,6 @@ public class SalesAdmin extends javax.swing.JFrame {
         // Hide the current window
         this.setVisible(false);
     }//GEN-LAST:event_transaksiBtnMouseClicked
-
-    private void diskonTxt1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diskonTxt1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_diskonTxt1ActionPerformed
 
     /**
      * @param args the command line arguments
