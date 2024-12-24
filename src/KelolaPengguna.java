@@ -1,3 +1,4 @@
+
 import javax.swing.JOptionPane;
 
 /*
@@ -9,12 +10,12 @@ import javax.swing.JOptionPane;
  *
  * @author ROG
  */
-public class Admin extends javax.swing.JFrame {
+public class KelolaPengguna extends javax.swing.JFrame {
 
     /**
-     * Creates new form Admin
+     * Creates new form KelolaPengguna
      */
-    public Admin() {
+    public KelolaPengguna() {
         initComponents();
     }
 
@@ -27,19 +28,6 @@ public class Admin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuBar2 = new javax.swing.JMenuBar();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
-        jPopupMenu1 = new javax.swing.JPopupMenu();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
-        jMenu8 = new javax.swing.JMenu();
-        jMenu6 = new javax.swing.JMenu();
-        jMenuBar3 = new javax.swing.JMenuBar();
-        jMenu7 = new javax.swing.JMenu();
-        jMenu9 = new javax.swing.JMenu();
         jPanel7 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         javax.swing.JLabel jLabel13 = new javax.swing.JLabel();
@@ -48,30 +36,7 @@ public class Admin extends javax.swing.JFrame {
         transaksiBtn = new javax.swing.JButton();
         kelolaPenggunaBtn = new javax.swing.JButton();
         logoutBtn5 = new javax.swing.JButton();
-
-        jMenu3.setText("File");
-        jMenuBar2.add(jMenu3);
-
-        jMenu4.setText("Edit");
-        jMenuBar2.add(jMenu4);
-
-        jMenu1.setText("jMenu1");
-
-        jMenu2.setText("File");
-        jMenuBar1.add(jMenu2);
-
-        jMenu5.setText("Edit");
-        jMenuBar1.add(jMenu5);
-
-        jMenu8.setText("jMenu8");
-
-        jMenu6.setText("jMenu6");
-
-        jMenu7.setText("File");
-        jMenuBar3.add(jMenu7);
-
-        jMenu9.setText("Edit");
-        jMenuBar3.add(jMenu9);
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -161,17 +126,25 @@ public class Admin extends javax.swing.JFrame {
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
+        jLabel1.setText("Kelola Pengguna Page");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(428, 428, 428)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 613, Short.MAX_VALUE))
+                .addGap(156, 156, 156)
+                .addComponent(jLabel1)
+                .addGap(0, 441, Short.MAX_VALUE))
         );
 
         pack();
@@ -202,10 +175,6 @@ public class Admin extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_salesBtn5MouseClicked
 
-    private void logoutBtn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtn5MouseClicked
-        logout();
-    }//GEN-LAST:event_logoutBtn5MouseClicked
-
     private void kelolaBarangBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaBarangBtnMouseClicked
         // Create an instance of Sales
         KelolaBarang kelolaBarangPage = new KelolaBarang();
@@ -215,6 +184,16 @@ public class Admin extends javax.swing.JFrame {
         // Hide the current window
         this.setVisible(false);
     }//GEN-LAST:event_kelolaBarangBtnMouseClicked
+
+    private void transaksiBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transaksiBtnMouseClicked
+        // Create an instance of Sales
+        Transaksi transaksiPage = new Transaksi();
+        transaksiPage.setVisible(true);
+        transaksiPage.setLocationRelativeTo(null);
+
+        // Hide the current window
+        this.setVisible(false);
+    }//GEN-LAST:event_transaksiBtnMouseClicked
 
     private void kelolaPenggunaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaPenggunaBtnMouseClicked
         // Create an instance of Sales
@@ -226,16 +205,10 @@ public class Admin extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_kelolaPenggunaBtnMouseClicked
 
-    private void transaksiBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transaksiBtnMouseClicked
-        // Create an instance of Sales
-        Transaksi transaksiPage = new Transaksi();
-        transaksiPage.setVisible(true);
-        transaksiPage.setLocationRelativeTo(null);
+    private void logoutBtn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtn5MouseClicked
+        logout();
+    }//GEN-LAST:event_logoutBtn5MouseClicked
 
-        // Hide the current window
-        this.setVisible(false);
-    }//GEN-LAST:event_transaksiBtnMouseClicked
-         
     /**
      * @param args the command line arguments
      */
@@ -253,40 +226,28 @@ public class Admin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(KelolaPengguna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(KelolaPengguna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(KelolaPengguna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(KelolaPengguna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Admin().setVisible(true);
+                new KelolaPengguna().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
-    private javax.swing.JMenu jMenu7;
-    private javax.swing.JMenu jMenu8;
-    private javax.swing.JMenu jMenu9;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuBar jMenuBar3;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JButton kelolaBarangBtn;
     private javax.swing.JButton kelolaPenggunaBtn;
     private javax.swing.JButton logoutBtn5;

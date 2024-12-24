@@ -36,9 +36,9 @@ public class SalesAdmin extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         javax.swing.JLabel jLabel11 = new javax.swing.JLabel();
         salesBtn4 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
-        jButton15 = new javax.swing.JButton();
-        jButton16 = new javax.swing.JButton();
+        kelolaBarangBtn = new javax.swing.JButton();
+        transaksiBtn = new javax.swing.JButton();
+        kelolaPenggunaBtn = new javax.swing.JButton();
         logoutBtn4 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         currentDatelbl = new javax.swing.JLabel();
@@ -91,16 +91,26 @@ public class SalesAdmin extends javax.swing.JFrame {
             }
         });
 
-        jButton14.setText("Kelola Barang");
-        jButton14.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jButton14KeyPressed(evt);
+        kelolaBarangBtn.setText("Kelola Barang");
+        kelolaBarangBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                kelolaBarangBtnMouseClicked(evt);
             }
         });
 
-        jButton15.setText("Tabel Transaksi");
+        transaksiBtn.setText("Tabel Transaksi");
+        transaksiBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                transaksiBtnMouseClicked(evt);
+            }
+        });
 
-        jButton16.setText("Kelola Pengguna");
+        kelolaPenggunaBtn.setText("Kelola Pengguna");
+        kelolaPenggunaBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                kelolaPenggunaBtnMouseClicked(evt);
+            }
+        });
 
         logoutBtn4.setText("Logout");
         logoutBtn4.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -121,11 +131,11 @@ public class SalesAdmin extends javax.swing.JFrame {
                 .addGap(66, 66, 66)
                 .addComponent(salesBtn4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton14)
+                .addComponent(kelolaBarangBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton15)
+                .addComponent(transaksiBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton16)
+                .addComponent(kelolaPenggunaBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
                 .addComponent(logoutBtn4)
                 .addGap(34, 34, 34))
@@ -143,9 +153,9 @@ public class SalesAdmin extends javax.swing.JFrame {
                         .addGap(29, 29, 29)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(salesBtn4)
-                            .addComponent(jButton14)
-                            .addComponent(jButton15)
-                            .addComponent(jButton16)
+                            .addComponent(kelolaBarangBtn)
+                            .addComponent(transaksiBtn)
+                            .addComponent(kelolaPenggunaBtn)
                             .addComponent(logoutBtn4))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
@@ -534,16 +544,6 @@ public class SalesAdmin extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_salesBtn4MouseClicked
 
-    private void jButton14KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton14KeyPressed
-        // Create an instance of Sales
-        Users usersPage = new Users();
-        usersPage.setVisible(true); // Show the login panel
-        usersPage.setLocationRelativeTo(null);
-
-        // Hide the current window
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton14KeyPressed
-
     private void logoutBtn4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtn4MouseClicked
         logout();
     }//GEN-LAST:event_logoutBtn4MouseClicked
@@ -551,6 +551,36 @@ public class SalesAdmin extends javax.swing.JFrame {
     private void pilihBarangDropDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pilihBarangDropDownActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_pilihBarangDropDownActionPerformed
+
+    private void kelolaBarangBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaBarangBtnMouseClicked
+        // Create an instance of Sales
+        KelolaBarang kelolaBarangPage = new KelolaBarang();
+        kelolaBarangPage.setVisible(true); // Show the kelolaBarangPage
+        kelolaBarangPage.setLocationRelativeTo(null);
+
+        // Hide the current window
+        this.setVisible(false);
+    }//GEN-LAST:event_kelolaBarangBtnMouseClicked
+
+    private void kelolaPenggunaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaPenggunaBtnMouseClicked
+      // Create an instance of Sales
+        KelolaPengguna kelolaPenggunaPage = new KelolaPengguna();
+        kelolaPenggunaPage.setVisible(true);
+        kelolaPenggunaPage.setLocationRelativeTo(null);
+
+        // Hide the current window
+        this.setVisible(false);
+    }//GEN-LAST:event_kelolaPenggunaBtnMouseClicked
+
+    private void transaksiBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transaksiBtnMouseClicked
+        // Create an instance of Sales
+        Transaksi transaksiPage = new Transaksi();
+        transaksiPage.setVisible(true);
+        transaksiPage.setLocationRelativeTo(null);
+
+        // Hide the current window
+        this.setVisible(false);
+    }//GEN-LAST:event_transaksiBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -593,9 +623,6 @@ public class SalesAdmin extends javax.swing.JFrame {
     private javax.swing.JTextField diskonTxt;
     private javax.swing.JTextField diskonTxt1;
     private javax.swing.JLabel grandTotalLbl;
-    private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton16;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -615,6 +642,8 @@ public class SalesAdmin extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jumlahTxt;
+    private javax.swing.JButton kelolaBarangBtn;
+    private javax.swing.JButton kelolaPenggunaBtn;
     private javax.swing.JLabel kembalianLbl;
     private javax.swing.JButton logoutBtn4;
     private javax.swing.JButton minusBtn;
@@ -625,5 +654,6 @@ public class SalesAdmin extends javax.swing.JFrame {
     private javax.swing.JTable tableBarang;
     private javax.swing.JTable tableKeranjang;
     private javax.swing.JLabel totalLbl;
+    private javax.swing.JButton transaksiBtn;
     // End of variables declaration//GEN-END:variables
 }
