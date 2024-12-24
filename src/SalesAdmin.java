@@ -91,16 +91,16 @@ public class SalesAdmin extends javax.swing.JFrame {
             }
         });
 
-        jButton14.setText("Tabel Users");
+        jButton14.setText("Kelola Barang");
         jButton14.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jButton14KeyPressed(evt);
             }
         });
 
-        jButton15.setText("Tabel Barang");
+        jButton15.setText("Tabel Transaksi");
 
-        jButton16.setText("Tabel Transaksi");
+        jButton16.setText("Kelola Pengguna");
 
         logoutBtn4.setText("Logout");
         logoutBtn4.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -119,14 +119,14 @@ public class SalesAdmin extends javax.swing.JFrame {
                     .addComponent(jLabel10)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(66, 66, 66)
-                .addComponent(salesBtn4, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(salesBtn4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton16)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 168, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
                 .addComponent(logoutBtn4)
                 .addGap(34, 34, 34))
         );
@@ -593,22 +593,9 @@ public class SalesAdmin extends javax.swing.JFrame {
     private javax.swing.JTextField diskonTxt;
     private javax.swing.JTextField diskonTxt1;
     private javax.swing.JLabel grandTotalLbl;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -618,15 +605,8 @@ public class SalesAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
@@ -636,19 +616,11 @@ public class SalesAdmin extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jumlahTxt;
     private javax.swing.JLabel kembalianLbl;
-    private javax.swing.JButton logoutBtn;
-    private javax.swing.JButton logoutBtn1;
-    private javax.swing.JButton logoutBtn2;
-    private javax.swing.JButton logoutBtn3;
     private javax.swing.JButton logoutBtn4;
     private javax.swing.JButton minusBtn;
     private javax.swing.JComboBox<String> pilihBarangDropDown;
     private javax.swing.JButton plusBtn;
     private javax.swing.JButton prosesBtn;
-    private javax.swing.JButton salesBtn;
-    private javax.swing.JButton salesBtn1;
-    private javax.swing.JButton salesBtn2;
-    private javax.swing.JButton salesBtn3;
     private javax.swing.JButton salesBtn4;
     private javax.swing.JTable tableBarang;
     private javax.swing.JTable tableKeranjang;
