@@ -645,7 +645,7 @@
                         </Column>
                         <Column editable="false" title="Jumlah" type="java.lang.Double">
                           <Data value="5000000.0"/>
-                          <Data value="60000.0"/>
+                          <Data value="50000.0"/>
                           <Data value="100000.0"/>
                         </Column>
                       </Table>

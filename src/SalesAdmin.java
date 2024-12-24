@@ -373,7 +373,7 @@ public class SalesAdmin extends javax.swing.JFrame {
         tableKeranjang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"Notebook",  new Integer(10),  new Double(5000000.0)},
-                {"Mouse",  new Integer(10),  new Double(60000.0)},
+                {"Mouse",  new Integer(10),  new Double(50000.0)},
                 {"Keyboard",  new Integer(10),  new Double(100000.0)}
             },
             new String [] {
