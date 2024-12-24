@@ -204,16 +204,16 @@ public class SalesAdmin extends javax.swing.JFrame {
 
         tableBarang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
+                { new Integer(1), null, null, null, null, null, null},
+                { new Integer(2), null, null, null, null, null, null},
+                { new Integer(3), null, null, null, null, null, null},
+                { new Integer(4), null, null, null, null, null, null},
+                { new Integer(5), null, null, null, null, null, null},
+                { new Integer(6), null, null, null, null, null, null},
+                { new Integer(7), null, null, null, null, null, null},
+                { new Integer(8), null, null, null, null, null, null},
+                { new Integer(9), null, null, null, null, null, null},
+                { new Integer(10), null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -372,9 +372,9 @@ public class SalesAdmin extends javax.swing.JFrame {
 
         tableKeranjang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"", null, null},
-                {"", null, null},
-                {"", null, null}
+                {"Notebook",  new Integer(10),  new Double(5000000.0)},
+                {"Mouse",  new Integer(10),  new Double(60000.0)},
+                {"Keyboard",  new Integer(10),  new Double(100000.0)}
             },
             new String [] {
                 "Barang", "Qty", "Jumlah"
