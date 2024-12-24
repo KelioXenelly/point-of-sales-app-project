@@ -1,3 +1,6 @@
+import java.awt.Color;
+import java.awt.Font;
+import static java.awt.SystemColor.TEXT;
 import javax.swing.JOptionPane;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -140,7 +143,7 @@ public class SalesAdmin extends javax.swing.JFrame {
                 .addComponent(transaksiBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(kelolaPenggunaBtn)
-
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(logoutBtn4)
                 .addGap(34, 34, 34))
         );
@@ -201,16 +204,16 @@ public class SalesAdmin extends javax.swing.JFrame {
 
         tableBarang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(1), null, null, null, null, null, null},
-                { new Integer(2), null, null, null, null, null, null},
-                { new Integer(3), null, null, null, null, null, null},
-                { new Integer(4), null, null, null, null, null, null},
-                { new Integer(5), null, null, null, null, null, null},
-                { new Integer(6), null, null, null, null, null, null},
-                { new Integer(7), null, null, null, null, null, null},
-                { new Integer(8), null, null, null, null, null, null},
-                { new Integer(9), null, null, null, null, null, null},
-                { new Integer(10), null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -299,6 +302,7 @@ public class SalesAdmin extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(minusBtn)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(plusBtn)))))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -368,9 +372,9 @@ public class SalesAdmin extends javax.swing.JFrame {
 
         tableKeranjang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Notebook",  new Integer(10),  new Double(5000000.0)},
-                {"Mouse",  new Integer(10),  new Double(50000.0)},
-                {"Keyboard",  new Integer(10),  new Double(100000.0)}
+                {"", null, null},
+                {"", null, null},
+                {"", null, null}
             },
             new String [] {
                 "Barang", "Qty", "Jumlah"
@@ -468,6 +472,10 @@ public class SalesAdmin extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel14.setText("Bayar:");
 
+        diskonTxt1.setText("Masukkan Diskon");
+        diskonTxt1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                diskonTxt1FocusGained(evt);
             }
         });
 
@@ -480,7 +488,7 @@ public class SalesAdmin extends javax.swing.JFrame {
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -621,6 +629,24 @@ public class SalesAdmin extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_transaksiBtnMouseClicked
 
+    private void jumlahTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jumlahTxtFocusGained
+        if(jumlahTxt.getText().equals("Masukkan Jumlah")) {
+            jumlahTxt.setText(null);
+            jumlahTxt.requestFocus();
+            // Remove placeholder style
+            removePlaceHolderStyle(jumlahTxt);
+        }
+    }//GEN-LAST:event_jumlahTxtFocusGained
+
+    private void diskonTxt1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_diskonTxt1FocusGained
+        if(diskonTxt1.getText().equals("Masukkan Diskon")) {
+            diskonTxt1.setText(null);
+            diskonTxt1.requestFocus();
+            // Remove placeholder style
+            removePlaceHolderStyle(diskonTxt1);
+        }
+    }//GEN-LAST:event_diskonTxt1FocusGained
+
     /**
      * @param args the command line arguments
      */
@@ -638,13 +664,13 @@ public class SalesAdmin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Sales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SalesAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Sales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SalesAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Sales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SalesAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Sales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SalesAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

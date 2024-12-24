@@ -15,18 +15,18 @@ public class PointOfSalesApps extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 876, Short.MAX_VALUE)
+            .addGap(0, 465, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 594, Short.MAX_VALUE)
+            .addGap(0, 287, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     public static void main(String args[]) {
-        
+ 
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
