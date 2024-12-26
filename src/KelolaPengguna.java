@@ -1,29 +1,41 @@
 import javax.swing.JOptionPane;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
+
 public class KelolaPengguna extends javax.swing.JFrame {
     private DefaultTableModel model = null;
     private PreparedStatement stm;
     private ResultSet rs;
+    String query = "SELECT users.user_id, users.username, users.password, roles.roles_name " +
+                   "FROM users " +
+                   "INNER JOIN roles ON users.roles_id = roles.roles_id";
     koneksi conn = new koneksi();
     
     public KelolaPengguna() {
         initComponents();
-        refreshTable();
         conn.connect();
+        if(conn.getConnection() == null) {
+            JOptionPane.showMessageDialog(this, "Failed to connect to the database!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        refreshTable();
     }
     
     class user extends KelolaPengguna {
-        int id_user, roles_id;
+        int user_id, roles_id;
         String username, password;
         
         public user() {
             username = usernameTxt.getText();
             password = passwordTxt.getText();
-            roles_id = Integer.parseInt(roles_idTxt.getSelectedItem().toString());
             
-            
+            if(roles_nameTxt.getSelectedItem().equals("Admin")) {
+                roles_id = 1;
+            } else {
+                roles_id = 2;
+            }
         }
     }
     
@@ -32,27 +44,31 @@ public class KelolaPengguna extends javax.swing.JFrame {
         model.addColumn("ID User");
         model.addColumn("Username");
         model.addColumn("Password");
-        model.addColumn("Kode Akses");
+        model.addColumn("Hak Akses");
         tablePengguna.setModel(model);
         try {
-            this.stm = conn.getConnection().prepareStatement("select * from users");
+            this.stm = conn.getConnection().prepareStatement(query);
             this.rs = this.stm.executeQuery();
             while(rs.next()) {
                 Object[]  data =  {
                     rs.getString("user_id"),
                     rs.getString("username"),
                     rs.getString("password"),
-                    rs.getString("roles_id")
+                    rs.getString("roles_name")
                 };
                 model.addRow(data);
             }
-        } catch (Exception e) {
+            
+            // Close resources
+            rs.close();
+            stm.close();
+            System.out.println("Connection Closed.");
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
         id_userTxt.setText("");
         usernameTxt.setText("");
         passwordTxt.setText("");
-        
     }
 
     @SuppressWarnings("unchecked")
@@ -81,10 +97,10 @@ public class KelolaPengguna extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         passwordTxt = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        roles_idTxt = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        roles_nameTxt = new javax.swing.JComboBox<>();
+        tambahBtn = new javax.swing.JButton();
+        ubahBtn = new javax.swing.JButton();
+        hapusBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -187,9 +203,18 @@ public class KelolaPengguna extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "ID User", "Username", "Password", "Kode Akses"
+                "ID User", "Username", "Password", "Hak Akses"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tablePengguna.getTableHeader().setReorderingAllowed(false);
         tablePengguna.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablePenggunaMouseClicked(evt);
@@ -205,11 +230,13 @@ public class KelolaPengguna extends javax.swing.JFrame {
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,65 +258,42 @@ public class KelolaPengguna extends javax.swing.JFrame {
         jLabel2.setText("Akun Pengguna");
 
         id_userTxt.setEnabled(false);
-        id_userTxt.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                id_userTxtComponentShown(evt);
-            }
-        });
-        id_userTxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                id_userTxtActionPerformed(evt);
-            }
-        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setText("Username:");
 
-        usernameTxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameTxtActionPerformed(evt);
-            }
-        });
-
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setText("Password");
 
-        passwordTxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwordTxtActionPerformed(evt);
-            }
-        });
-
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setText("Kode Akses:");
+        jLabel6.setText("Hak Akses:");
 
-        roles_idTxt.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2" }));
+        roles_nameTxt.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User" }));
+        roles_nameTxt.setSelectedIndex(0);
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Plus.png"))); // NOI18N
-        jButton1.setText("Tambah");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        tambahBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        tambahBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Plus.png"))); // NOI18N
+        tambahBtn.setText("Tambah");
+        tambahBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                tambahBtnActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Edit.png"))); // NOI18N
-        jButton2.setText("Ubah");
-        jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        ubahBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        ubahBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Edit.png"))); // NOI18N
+        ubahBtn.setText("Ubah");
+        ubahBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                ubahBtnActionPerformed(evt);
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Trash.png"))); // NOI18N
-        jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(175, 0, 0)));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        hapusBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        hapusBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Trash.png"))); // NOI18N
+        hapusBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                hapusBtnActionPerformed(evt);
             }
         });
 
@@ -301,15 +305,15 @@ public class KelolaPengguna extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tambahBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                        .addComponent(ubahBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(hapusBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(id_userTxt)
                     .addComponent(usernameTxt)
                     .addComponent(passwordTxt)
-                    .addComponent(roles_idTxt, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(roles_nameTxt, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -340,12 +344,12 @@ public class KelolaPengguna extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(roles_idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(roles_nameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tambahBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(hapusBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ubahBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -445,69 +449,91 @@ public class KelolaPengguna extends javax.swing.JFrame {
         logout();
     }//GEN-LAST:event_logoutBtn5MouseClicked
 
-    private void id_userTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_id_userTxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_id_userTxtActionPerformed
-
-    private void usernameTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usernameTxtActionPerformed
-
-    private void passwordTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordTxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passwordTxtActionPerformed
-
-    private void id_userTxtComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_id_userTxtComponentShown
-
-    }//GEN-LAST:event_id_userTxtComponentShown
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void ubahBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubahBtnActionPerformed
         try {
             user usr = new user();
-            this.stm = conn.getConnection().prepareStatement("update users set username=?,  password=?,  roles_id=? where id_user=?" );
-            stm.setInt(1, 0);
-            stm.setString(2, usr.username);
-            stm.setString(3, usr.password);
-            stm.setInt(4, usr.roles_id);
-            stm.executeUpdate();
-            refreshTable();
-        } catch(Exception e) {
+            if(!usr.username.isEmpty() && !usr.password.isEmpty()) {
+                this.stm = conn.getConnection().prepareStatement("update users set username=?,  password=?, roles_id=? where user_id=?" );
+                stm.setString(1, usr.username);
+                stm.setString(2, usr.password);
+                stm.setInt(3, usr.roles_id);
+
+                int idUserDb = Integer.parseInt(model.getValueAt(tablePengguna.getSelectedRow(), 0).toString());
+                usr.user_id = idUserDb;
+                stm.setInt(4, usr.user_id);
+
+                int rowsAffected = stm.executeUpdate(); // Capture affected rows
+
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(null, "Data Berhasil Terubah");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Data Tidak Ditemukan");
+                }
+
+                stm.executeUpdate();
+
+                refreshTable();
+            } else {
+                    JOptionPane.showMessageDialog(null, "Belum ada data pengguna yang dipilih", "Input Error", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch(SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_ubahBtnActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void hapusBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusBtnActionPerformed
         try {
             user usr = new user();
-            this.stm = conn.getConnection().prepareStatement("delete from users where id_user=?");
-            stm.setInt(1, usr.id_user);
-            stm.executeUpdate();
-            refreshTable();
+            if(!usr.username.isEmpty() && !usr.password.isEmpty()) {
+                this.stm = conn.getConnection().prepareStatement("delete from users where user_id=?");
+
+                int idUserDb = Integer.parseInt(model.getValueAt(tablePengguna.getSelectedRow(), 0).toString());
+                usr.user_id = idUserDb;
+                stm.setInt(1, usr.user_id);
+
+                stm.executeUpdate();
+                refreshTable();
+            } else {
+                JOptionPane.showMessageDialog(null, "Belum ada data pengguna yang dipilih", "Input Error", JOptionPane.WARNING_MESSAGE);
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_hapusBtnActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void tambahBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahBtnActionPerformed
         try {
             user usr = new user();
-            this.stm = conn.getConnection().prepareStatement("insert into users values(?, ?, ?, ?)");
-            stm.setInt(1, 0);
-            stm.setString(2, usr.username);
-            stm.setString(3, usr.password);
-            stm.setInt(4, usr.roles_id);
-            stm.executeUpdate();
-            refreshTable();
+            if(!usr.username.isEmpty() && !usr.password.isEmpty()) {
+                this.stm = conn.getConnection().prepareStatement("insert into users values(?, ?, ?, ?)");
+                
+                stm.setInt(1, 0);
+                stm.setString(2, usr.username);
+                stm.setString(3, usr.password);
+                stm.setInt(4, usr.roles_id);
+
+                stm.executeUpdate();
+                refreshTable();
+                
+                JOptionPane.showMessageDialog(null, "Data berhasil ditambahkan");
+            } else {
+                JOptionPane.showMessageDialog(null, "Harap memasukkan Username dan Password", "Input Error", JOptionPane.WARNING_MESSAGE);
+            }
         } catch(Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_tambahBtnActionPerformed
 
     private void tablePenggunaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePenggunaMouseClicked
         id_userTxt.setText(model.getValueAt(tablePengguna.getSelectedRow(), 0).toString());
         usernameTxt.setText(model.getValueAt(tablePengguna.getSelectedRow(), 1).toString());
         passwordTxt.setText(model.getValueAt(tablePengguna.getSelectedRow(), 2).toString());
         
+        if(model.getValueAt(tablePengguna.getSelectedRow(), 3).toString().equals("admin")) {
+            roles_nameTxt.setSelectedIndex(0);
+        } else {
+            roles_nameTxt.setSelectedIndex(1);
+        }
     }//GEN-LAST:event_tablePenggunaMouseClicked
 
     /**
@@ -522,10 +548,8 @@ public class KelolaPengguna extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton hapusBtn;
     private javax.swing.JTextField id_userTxt;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
@@ -542,10 +566,12 @@ public class KelolaPengguna extends javax.swing.JFrame {
     private javax.swing.JButton kelolaPenggunaBtn;
     private javax.swing.JButton logoutBtn5;
     private javax.swing.JTextField passwordTxt;
-    private javax.swing.JComboBox<String> roles_idTxt;
+    private javax.swing.JComboBox<String> roles_nameTxt;
     private javax.swing.JButton salesBtn5;
     private javax.swing.JTable tablePengguna;
+    private javax.swing.JButton tambahBtn;
     private javax.swing.JButton transaksiBtn;
+    private javax.swing.JButton ubahBtn;
     private javax.swing.JTextField usernameTxt;
     // End of variables declaration//GEN-END:variables
 }
