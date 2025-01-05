@@ -1,9 +1,18 @@
 
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -15,14 +24,141 @@ import javax.swing.JTextField;
  * @author ROG
  */
 public class KelolaBarang extends javax.swing.JFrame {
-
+    protected DefaultTableModel model = null;
+    protected PreparedStatement stg;
+    protected PreparedStatement stm;
+    protected PreparedStatement stt;
+    protected PreparedStatement sta;
+    protected ResultSet rs;
+    protected ResultSet rt;
+    String query = "SELECT barang.barang_id, kode_barang, nama_barang, detailbarang.qty, "
+                 + "detailbarang.harga_beli, detailbarang.harga_jual, detailbarang.profit "
+                 + "FROM barang "
+                 + "LEFT JOIN kodebarang ON barang.kode_barang_id = kodebarang.kode_barang_id "
+                 + "LEFT JOIN detailbarang ON barang.barang_id = detailbarang.barang_id";
+    koneksi conn = new koneksi();
+    
     /**
      * Creates new form KelolaBarang
      */
     public KelolaBarang() {
         initComponents();
+        conn.connect();
+        if(conn.getConnection() == null) {
+            JOptionPane.showMessageDialog(this, "Failed to connect to the database!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+            this.stm = conn.getConnection().prepareStatement("SELECT kode_barang FROM kodebarang");
+            this.rs = this.stm.executeQuery();
+            beliKodeBarang.addItem("");
+            while(rs.next()) {
+                beliKodeBarang.addItem(rs.getString("kode_barang"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(KelolaBarang.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        refreshTable();
     }
-
+    
+    class barang extends KelolaBarang {
+        String kode_barang, nama_barang;
+        
+        public barang() {
+            kode_barang = buatKodeBarangTxt.getText();
+            nama_barang = namaBarangTxt.getText();
+        }
+        
+    }
+    
+    class pembelian extends KelolaBarang {
+        String kode_barang, nama_barang, keterangan;
+        double harga_beli, harga_jual;
+        Date tanggal_beli;
+        int qty, barang_id, pembelian_id, detail_barang_id;
+        double profit;
+        
+        public pembelian() {
+            try {
+                kode_barang = beliKodeBarang.getSelectedItem().toString();
+                tanggal_beli = beliTanggalBeliChooser.getDate();
+                nama_barang = beliNamaBarangTxt.getText();
+                qty = Integer.parseInt(beliQtyTxt.getText());
+                harga_beli = Double.parseDouble(beliHargaBeliTxt.getText());
+                harga_jual = Double.parseDouble(beliHargaJualTxt.getText());
+                keterangan = keteranganTextBox.getText();
+                profit = (harga_jual * qty) - (harga_beli * qty);
+                
+                this.stm = conn.getConnection().prepareStatement("SELECT barang.barang_id, kodebarang.kode_barang "
+                                                               + "FROM barang "
+                                                               + "INNER JOIN kodebarang ON kodebarang.kode_barang_id = barang.kode_barang_id");
+                this.rs = this.stm.executeQuery();
+                
+                barang_id = -1; // Default value if no match is found
+                
+                while(this.rs.next()) {
+                    if(kode_barang.equals(this.rs.getString("kode_barang"))) {
+                        barang_id = this.rs.getInt("barang_id");
+                        break; // Exit loop after finding the match
+                    }
+                }
+                
+                if (barang_id == -1) {
+                    JOptionPane.showMessageDialog(null, "Barang ID not found for Kode Barang: " + kode_barang);
+                }
+            } catch(Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+        }
+    }
+    
+    public void refreshTable() {
+        model = new DefaultTableModel();
+        model.addColumn("No");
+        model.addColumn("Kode");
+        model.addColumn("Nama Barang");
+        model.addColumn("Qty");
+        model.addColumn("Harga Beli");
+        model.addColumn("Harga Jual");
+        model.addColumn("Profit");
+        tableBarang.setModel(model);
+        
+        try {
+            this.stm = conn.getConnection().prepareStatement(query);
+            this.rs = this.stm.executeQuery();
+            int i = 1;
+            while(rs.next()) {
+                Object[]  data =  {
+                    i,
+                    rs.getString("kode_barang"),
+                    rs.getString("nama_barang"),
+                    rs.getString("qty"),
+                    rs.getString("harga_beli"),
+                    rs.getString("harga_jual"),
+                    rs.getString("profit")
+                };
+                model.addRow(data);
+                i++;
+            }
+            
+            // Close resources
+            rs.close();
+            stm.close();
+            System.out.println("Connection Closed.");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        buatKodeBarangTxt.setText("");
+        namaBarangTxt.setText("");
+        beliKodeBarang.setSelectedItem("");
+        beliTanggalBeliChooser.setDate(null);
+        beliNamaBarangTxt.setText("");
+        beliHargaBeliTxt.setText("");
+        beliQtyTxt.setText("");
+        beliHargaJualTxt.setText("");
+        keteranganTextBox.setText("");
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,7 +173,7 @@ public class KelolaBarang extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         javax.swing.JLabel jLabel11 = new javax.swing.JLabel();
         salesBtn4 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
+        kelolaBarangBtn = new javax.swing.JButton();
         transaksiBtn = new javax.swing.JButton();
         kelolaPenggunaBtn = new javax.swing.JButton();
         logoutBtn4 = new javax.swing.JButton();
@@ -46,10 +182,11 @@ public class KelolaBarang extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         namaBarangTxt = new javax.swing.JTextField();
-        plusBtn = new javax.swing.JButton();
+        tambahBarangBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableBarang = new javax.swing.JTable();
         buatKodeBarangTxt = new javax.swing.JTextField();
+        ubahBarangBtn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         transaksiBarangTxt = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -67,9 +204,9 @@ public class KelolaBarang extends javax.swing.JFrame {
         keteranganTextBox = new javax.swing.JTextArea();
         beliTanggalBeliChooser = new com.toedter.calendar.JDateChooser();
         jLabel15 = new javax.swing.JLabel();
-        plusBtn1 = new javax.swing.JButton();
-        plusBtn2 = new javax.swing.JButton();
-        plusBtn3 = new javax.swing.JButton();
+        prosesBeliBarang = new javax.swing.JButton();
+        ubahBarang = new javax.swing.JButton();
+        hapusBarang = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,10 +229,10 @@ public class KelolaBarang extends javax.swing.JFrame {
             }
         });
 
-        jButton14.setText("Kelola Barang");
-        jButton14.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jButton14KeyPressed(evt);
+        kelolaBarangBtn.setText("Kelola Barang");
+        kelolaBarangBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                kelolaBarangBtnMouseClicked(evt);
             }
         });
 
@@ -132,7 +269,7 @@ public class KelolaBarang extends javax.swing.JFrame {
                 .addGap(66, 66, 66)
                 .addComponent(salesBtn4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton14)
+                .addComponent(kelolaBarangBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(transaksiBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -154,7 +291,7 @@ public class KelolaBarang extends javax.swing.JFrame {
                         .addGap(29, 29, 29)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(salesBtn4)
-                            .addComponent(jButton14)
+                            .addComponent(kelolaBarangBtn)
                             .addComponent(transaksiBtn)
                             .addComponent(kelolaPenggunaBtn)
                             .addComponent(logoutBtn4))))
@@ -181,52 +318,57 @@ public class KelolaBarang extends javax.swing.JFrame {
             }
         });
 
-        plusBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        plusBtn.setText("Tambah");
-        plusBtn.setAlignmentY(0.0F);
+        tambahBarangBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        tambahBarangBtn.setText("Tambah");
+        tambahBarangBtn.setAlignmentY(0.0F);
+        tambahBarangBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tambahBarangBtnMouseClicked(evt);
+            }
+        });
 
         tableBarang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(1), null, null, null, null, null, null},
-                { new Integer(2), null, null, null, null, null, null},
-                { new Integer(3), null, null, null, null, null, null},
-                { new Integer(4), null, null, null, null, null, null},
-                { new Integer(5), null, null, null, null, null, null},
-                { new Integer(6), null, null, null, null, null, null},
-                { new Integer(7), null, null, null, null, null, null},
-                { new Integer(8), null, null, null, null, null, null},
-                { new Integer(9), null, null, null, null, null, null},
-                { new Integer(10), null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "No", "Kode", "Nama Barang", "Qty", "Harga Beli", "Harga Jual", "Profit"
+                "No", "Kode", "Nama Barang", "Qty", "Harga Beli", "Harga Jual", "Profit", "ID Pembelian"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -240,13 +382,45 @@ public class KelolaBarang extends javax.swing.JFrame {
         tableBarang.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tableBarang.setShowGrid(true);
         tableBarang.getTableHeader().setReorderingAllowed(false);
+        tableBarang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableBarangMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableBarang);
+        if (tableBarang.getColumnModel().getColumnCount() > 0) {
+            tableBarang.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tableBarang.getColumnModel().getColumn(0).setMaxWidth(30);
+            tableBarang.getColumnModel().getColumn(1).setPreferredWidth(80);
+            tableBarang.getColumnModel().getColumn(1).setMaxWidth(80);
+            tableBarang.getColumnModel().getColumn(2).setPreferredWidth(150);
+            tableBarang.getColumnModel().getColumn(3).setPreferredWidth(30);
+            tableBarang.getColumnModel().getColumn(3).setMaxWidth(30);
+            tableBarang.getColumnModel().getColumn(4).setPreferredWidth(80);
+            tableBarang.getColumnModel().getColumn(4).setMaxWidth(80);
+            tableBarang.getColumnModel().getColumn(5).setPreferredWidth(80);
+            tableBarang.getColumnModel().getColumn(5).setMaxWidth(80);
+            tableBarang.getColumnModel().getColumn(6).setPreferredWidth(80);
+            tableBarang.getColumnModel().getColumn(6).setMaxWidth(80);
+            tableBarang.getColumnModel().getColumn(7).setMinWidth(0);
+            tableBarang.getColumnModel().getColumn(7).setPreferredWidth(0);
+            tableBarang.getColumnModel().getColumn(7).setMaxWidth(0);
+        }
 
         buatKodeBarangTxt.setText("Buat Kode Barang");
         buatKodeBarangTxt.setToolTipText("");
         buatKodeBarangTxt.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 buatKodeBarangTxtFocusGained(evt);
+            }
+        });
+
+        ubahBarangBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        ubahBarangBtn.setText("Ubah");
+        ubahBarangBtn.setAlignmentY(0.0F);
+        ubahBarangBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ubahBarangBtnMouseClicked(evt);
             }
         });
 
@@ -257,43 +431,41 @@ public class KelolaBarang extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(tabelBarangLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(buatKodeBarangTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addComponent(namaBarangTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(plusBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE))
-                            .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createSequentialGroup()
+                            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel5)
+                                .addComponent(buatKodeBarangTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel12)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addGroup(jPanel7Layout.createSequentialGroup()
+                                    .addComponent(namaBarangTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(tambahBarangBtn)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(ubahBarangBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tabelBarangLbl)
                 .addGap(12, 12, 12)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel12))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(namaBarangTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buatKodeBarangTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(plusBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(tabelBarangLbl)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buatKodeBarangTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ubahBarangBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tambahBarangBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(namaBarangTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -329,7 +501,11 @@ public class KelolaBarang extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel14.setText("Keterangan:");
 
-        beliKodeBarang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kode-1", "Kode-2", "Kode-3", "Kode-4" }));
+        beliKodeBarang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                beliKodeBarangMouseClicked(evt);
+            }
+        });
 
         keteranganTextBox.setColumns(20);
         keteranganTextBox.setRows(5);
@@ -344,35 +520,55 @@ public class KelolaBarang extends javax.swing.JFrame {
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel15.setText("Tanggal Beli:");
 
-        plusBtn1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        plusBtn1.setText("Proses");
-        plusBtn1.setAlignmentY(0.0F);
+        prosesBeliBarang.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        prosesBeliBarang.setText("Proses");
+        prosesBeliBarang.setAlignmentY(0.0F);
+        prosesBeliBarang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                prosesBeliBarangMouseClicked(evt);
+            }
+        });
 
-        plusBtn2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        plusBtn2.setText("Edit");
-        plusBtn2.setAlignmentY(0.0F);
+        ubahBarang.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        ubahBarang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Edit.png"))); // NOI18N
+        ubahBarang.setText("Ubah");
+        ubahBarang.setAlignmentY(0.0F);
+        ubahBarang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ubahBarangMouseClicked(evt);
+            }
+        });
 
-        plusBtn3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        plusBtn3.setText("X");
-        plusBtn3.setAlignmentY(0.0F);
+        hapusBarang.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        hapusBarang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Trash.png"))); // NOI18N
+        hapusBarang.setAlignmentY(0.0F);
+        hapusBarang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                hapusBarangMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(beliNamaBarangTxt)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(beliHargaBeliTxt)
-                    .addComponent(beliQtyTxt)
-                    .addComponent(beliHargaJualTxt)
-                    .addComponent(jScrollPane2)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addComponent(beliNamaBarangTxt, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(beliHargaJualTxt, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(prosesBeliBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ubahBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(hapusBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(beliQtyTxt, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9)
                             .addComponent(jLabel13)
                             .addComponent(jLabel14)
                             .addComponent(transaksiBarangTxt)
@@ -383,14 +579,10 @@ public class KelolaBarang extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel15)
-                                    .addComponent(beliTanggalBeliChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 2, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(plusBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(plusBtn2, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(plusBtn3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(beliTanggalBeliChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel8))
+                        .addGap(0, 7, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -411,26 +603,26 @@ public class KelolaBarang extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(beliNamaBarangTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(beliHargaBeliTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(13, 13, 13)
                 .addComponent(beliQtyTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel13)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(beliHargaBeliTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(beliHargaJualTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel14)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                .addGap(34, 34, 34)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(plusBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(plusBtn2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(plusBtn3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(prosesBeliBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ubahBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(hapusBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -493,8 +685,6 @@ public class KelolaBarang extends javax.swing.JFrame {
         textField.setForeground(Color.gray);
     }
     
-    
-    
     public void removePlaceHolderStyle(JTextField textField) {
         Font font = textField.getFont();
         font = font.deriveFont(Font.PLAIN|Font.BOLD);
@@ -525,10 +715,6 @@ public class KelolaBarang extends javax.swing.JFrame {
         // Hide the current window
         this.setVisible(false);
     }//GEN-LAST:event_salesBtn4MouseClicked
-
-    private void jButton14KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton14KeyPressed
-        
-    }//GEN-LAST:event_jButton14KeyPressed
 
     private void logoutBtn4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtn4MouseClicked
         logout();
@@ -581,6 +767,418 @@ public class KelolaBarang extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_keteranganTextBoxFocusGained
 
+    private void tambahBarangBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tambahBarangBtnMouseClicked
+        try {
+            barang brg = new barang();
+            String insertKodeBarang = "INSERT IGNORE INTO kodebarang (kode_barang) VALUES (?)";
+            String getKodeBarangId = "SELECT kode_barang_id FROM kodebarang WHERE kode_barang = ?";
+            String insertBarang = "INSERT INTO barang (kode_barang_id, nama_barang) VALUES (?, ?)";
+            String getKodeBarang = "SELECT kode_barang FROM kodebarang";
+            
+            if(!brg.kode_barang.isEmpty() && !brg.nama_barang.isEmpty()) {
+                Connection connection = conn.getConnection();
+                connection.setAutoCommit(false); // Start transaction
+                
+                // Check Kode Barang Exist in Database
+                this.stg = connection.prepareStatement(getKodeBarang);
+                this.rs = this.stg.executeQuery();
+                
+                while(rs.next()) {
+                    if(brg.kode_barang.equals(rs.getString("kode_barang"))) {
+                        JOptionPane.showMessageDialog(null, "Kode Barang sudah tersedia, harap masukkan kode baru", 
+                                                            "Input Error", JOptionPane.WARNING_MESSAGE);
+                        return; // Fixed: Stop execution if duplicate is found
+                    }
+                }
+                
+                // Insert Kode Barang
+                this.stm = connection.prepareStatement(insertKodeBarang, Statement.RETURN_GENERATED_KEYS);
+                stm.setString(1, brg.kode_barang);
+                stm.executeUpdate();
+                
+                ResultSet rsGeneratedKeys = stm.getGeneratedKeys();
+                int kodeBarangId;
+                if (rsGeneratedKeys.next()) {
+                    kodeBarangId = rsGeneratedKeys.getInt(1);  
+                } else {
+                    throw new SQLException("Failed to retrieve generated Kode Barang ID!");
+                }
+                
+                // Insert Barang
+                this.sta = connection.prepareStatement(insertBarang, Statement.RETURN_GENERATED_KEYS);
+                sta.setInt(1, kodeBarangId);
+                sta.setString(2, brg.nama_barang);
+                sta.executeUpdate();
+                
+                ResultSet rsBarangId = sta.getGeneratedKeys();
+                if (rsBarangId.next()) {
+                    int barangId = rsBarangId.getInt(1);  
+                } else {
+                    throw new SQLException("Barang ID tidak ditemukan!");
+                }
+                
+                connection.commit(); // Commit transaction
+                
+                refreshTable();
+                
+                JOptionPane.showMessageDialog(null, "Barang berhasil di tambahkan");
+                
+                KelolaBarang kelolaBarangPage = new KelolaBarang();
+                kelolaBarangPage.setVisible(true); 
+                kelolaBarangPage.setLocationRelativeTo(null);
+                this.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(null, "Harap memasukkan kode dan nama barang", "Input Error", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch(Exception e) {
+            try {
+                conn.getConnection().rollback(); // Rollback on error
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_tambahBarangBtnMouseClicked
+
+    private void kelolaBarangBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaBarangBtnMouseClicked
+        // Create an instance of Sales
+        KelolaBarang kelolaBarangPage = new KelolaBarang();
+        kelolaBarangPage.setVisible(true); // Show the kelolaBarangPage
+        kelolaBarangPage.setLocationRelativeTo(null);
+
+        // Hide the current window
+        this.setVisible(false);
+    }//GEN-LAST:event_kelolaBarangBtnMouseClicked
+
+    private void tableBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableBarangMouseClicked
+        try {
+            int selectedRow = tableBarang.getSelectedRow();
+            if (selectedRow != -1) {
+                Object kodeBarang = model.getValueAt(selectedRow, 1);
+                Object namaBarang = model.getValueAt(selectedRow, 2);
+                Object qty = model.getValueAt(selectedRow, 3);
+                Object hargaBeli = model.getValueAt(selectedRow, 4);
+                Object hargaJual = model.getValueAt(selectedRow, 5);
+                
+                buatKodeBarangTxt.setText(kodeBarang != null ? kodeBarang.toString() : "");
+                namaBarangTxt.setText(namaBarang != null ? namaBarang.toString() : "");
+                beliKodeBarang.setSelectedItem(kodeBarang != null ? kodeBarang.toString() : "");
+                beliNamaBarangTxt.setText(namaBarang != null ? namaBarang.toString() : "");
+                beliQtyTxt.setText(qty != null ? qty.toString() : "");
+                beliHargaBeliTxt.setText(hargaBeli != null ? hargaBeli.toString() : "");
+                beliHargaJualTxt.setText(hargaJual != null ? hargaJual.toString() : "");
+            } else {
+                JOptionPane.showMessageDialog(null, "No row selected.");
+            }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_tableBarangMouseClicked
+
+    private void prosesBeliBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_prosesBeliBarangMouseClicked
+        try {
+            pembelian pbl = new pembelian();
+            if(!pbl.nama_barang.isEmpty() && pbl.tanggal_beli != null &&
+               pbl.qty > 0 && pbl.harga_beli != 0 && pbl.harga_jual != 0) {
+                // Periksa apakah barang dengan harga beli yang sama sudah ada
+                String checkQuery = "SELECT barang_id, qty FROM detailbarang WHERE barang_id = ? AND harga_beli = ?";
+                this.stm = conn.getConnection().prepareStatement(checkQuery);
+                stm.setInt(1, pbl.barang_id);
+                stm.setDouble(2, pbl.harga_beli);
+                this.rs = stm.executeQuery();
+
+                if (this.rs.next()) {
+                    // Jika harga beli sama, update qty saja
+                    int existingQty = this.rs.getInt("qty");
+                    int updatedQty = existingQty + pbl.qty;
+
+                    String updateQuery = "UPDATE detailbarang SET qty = ? WHERE barang_id = ? AND harga_beli = ?";
+                    this.stm = conn.getConnection().prepareStatement(updateQuery);
+                    stm.setInt(1, updatedQty);
+                    stm.setInt(2, pbl.barang_id);
+                    stm.setDouble(3, pbl.harga_beli);
+                    stm.executeUpdate();
+
+                    JOptionPane.showMessageDialog(null, "Stok berhasil diperbarui!");
+
+                } else {
+                    // Jika harga beli berbeda, insert data baru
+                    String insertQuery = "INSERT INTO detailbarang (barang_id, qty, harga_beli, harga_jual, profit) VALUES (?, ?, ?, ?, ?)";
+                    this.stm = conn.getConnection().prepareStatement(insertQuery);
+                    stm.setInt(1, pbl.barang_id);
+                    stm.setInt(2, pbl.qty);
+                    stm.setDouble(3, pbl.harga_beli);
+                    stm.setDouble(4, pbl.harga_jual);
+                    stm.setDouble(5, pbl.profit);
+                    stm.executeUpdate();
+
+                    JOptionPane.showMessageDialog(null, "Stok baru berhasil ditambahkan!");
+                }
+                
+                this.stm = conn.getConnection().prepareStatement("insert into pembelian "
+                        + "(tanggal_beli, barang_id, qty, harga_beli, harga_jual, profit, keterangan) "
+                        + "values (?, ?, ?, ?, ?, ?, ?)");
+                
+                java.sql.Date sqlDate = new java.sql.Date(pbl.tanggal_beli.getTime());
+                stm.setDate(1, sqlDate);
+                stm.setInt(2, pbl.barang_id);
+                stm.setInt(3, pbl.qty);
+                stm.setDouble(4, pbl.harga_beli);
+                stm.setDouble(5, pbl.harga_jual);
+                stm.setDouble(6, pbl.profit);
+                stm.setString(7, pbl.keterangan);
+                stm.executeUpdate();
+                
+                refreshTable();
+                
+                JOptionPane.showMessageDialog(null, "Transaksi Pembelian Berhasil!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Harap memasukkan data secara lengkap", "Input Error", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_prosesBeliBarangMouseClicked
+
+    private void beliKodeBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_beliKodeBarangMouseClicked
+        try {
+            String sql = "SELECT kodebarang.kode_barang, barang.nama_barang "
+                       + "FROM barang "
+                       + "INNER JOIN kodebarang ON kodebarang.kode_barang_id = barang.kode_barang_id "
+                       + "WHERE kodebarang.kode_barang = ?";
+
+            this.stm = conn.getConnection().prepareStatement(sql);
+            String kodeBarang = (beliKodeBarang.getSelectedItem() != null) ? beliKodeBarang.getSelectedItem().toString() : "";
+
+            this.stm.setString(1, kodeBarang);
+            this.rs = stm.executeQuery();
+
+            if (rs.next()) {
+                beliNamaBarangTxt.setText(rs.getString("nama_barang"));
+            } else {
+                beliNamaBarangTxt.setText("");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_beliKodeBarangMouseClicked
+
+    private void ubahBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ubahBarangMouseClicked
+        try {
+            pembelian pbl = new pembelian();
+            conn.getConnection().setAutoCommit(false);
+
+            int selectedRow = tableBarang.getSelectedRow();
+            if (selectedRow != -1) {
+                Object qty = model.getValueAt(selectedRow, 3);
+                Object hargaBeli = model.getValueAt(selectedRow, 4);
+                int qtyTable = Integer.parseInt(qty.toString());
+                double hargaBeliTable = Double.parseDouble(hargaBeli.toString());
+                
+                // Update Tabel Barang
+                String updateBarang = "UPDATE barang SET nama_barang = ? WHERE barang_id = ?";
+                this.stt = conn.getConnection().prepareStatement(updateBarang);
+                this.stt.setString(1, pbl.nama_barang);
+                this.stt.setInt(2, pbl.barang_id);
+                this.stt.executeUpdate();
+                
+                
+                // Fetch detail_barang_id
+                this.stm = conn.getConnection().prepareStatement("SELECT detail_barang_id, qty, harga_beli "
+                                                               + "FROM detailbarang where barang_id = ?");
+                this.stm.setInt(1, pbl.barang_id);
+                this.rt = this.stm.executeQuery();
+                
+                while(this.rt.next()) {
+                    if(qtyTable == this.rt.getInt("qty") && hargaBeliTable == this.rt.getDouble("harga_beli")) {
+                        pbl.detail_barang_id = this.rt.getInt("detail_barang_id");
+                        break;
+                    }
+                }
+                
+                // If no match found
+                if (pbl.detail_barang_id == 0) {
+                    JOptionPane.showMessageDialog(null, "No matching detail_barang_id found!");
+                    return;
+                }
+                
+                // Update Tabel Detail Barang
+                String updateDetailBarang = "UPDATE detailbarang SET qty = ?, harga_beli = ?, harga_jual = ?, profit = ? WHERE detail_barang_id = ?";
+                this.sta = conn.getConnection().prepareStatement(updateDetailBarang);
+                this.sta.setInt(1, pbl.qty);
+                this.sta.setDouble(2, pbl.harga_beli);
+                this.sta.setDouble(3, pbl.harga_jual);
+                this.sta.setDouble(4, pbl.profit);
+                this.sta.setInt(5, pbl.detail_barang_id);
+                this.sta.executeUpdate();
+
+                conn.getConnection().commit();
+
+                refreshTable();
+
+                JOptionPane.showMessageDialog(null, "Ubah Transaksi Berhasil");
+            } else {
+                JOptionPane.showMessageDialog(null, "No row selected.");
+            }
+        } catch (SQLException e) {
+            // If any error occurs, rollback the transaction
+            try {
+                conn.getConnection().rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+        } finally {
+            try {
+                // Reset auto-commit to true
+                conn.getConnection().setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_ubahBarangMouseClicked
+
+    private void hapusBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hapusBarangMouseClicked
+        try {
+            pembelian pbl = new pembelian();
+            conn.getConnection().setAutoCommit(false);
+
+            int selectedRow = tableBarang.getSelectedRow();
+            if (selectedRow != -1) {
+                Object qty = model.getValueAt(selectedRow, 3);
+                Object hargaBeli = model.getValueAt(selectedRow, 4);
+                Object hargaJual = model.getValueAt(selectedRow, 5);
+                int qtyTable = Integer.parseInt(qty.toString());
+                double hargaBeliTable = Double.parseDouble(hargaBeli.toString());
+                double hargaJualTable = Double.parseDouble(hargaJual.toString());
+                
+                int dialogBtn = JOptionPane.YES_NO_OPTION;
+                int confirmDelete = JOptionPane.showConfirmDialog(null, "Apakah Anda Yakin ingin menghapus barang tersebut?", "Warning", dialogBtn);
+                
+                if(confirmDelete == JOptionPane.YES_OPTION) {
+                    // Fetch detail_barang_id
+                    this.stm = conn.getConnection().prepareStatement("SELECT detail_barang_id, qty, harga_beli, harga_jual "
+                                                                   + "FROM detailbarang where barang_id = ?");
+                    this.stm.setInt(1, pbl.barang_id);
+                    this.rt = this.stm.executeQuery();
+
+                    while(this.rt.next()) {
+                        if(qtyTable == this.rt.getInt("qty") && hargaBeliTable == this.rt.getDouble("harga_beli") && 
+                           hargaJualTable == this.rt.getDouble("harga_jual")) {
+                            pbl.detail_barang_id = this.rt.getInt("detail_barang_id");
+                            break;
+                        }
+                    }
+
+                    // If no match found
+                    if (pbl.detail_barang_id == 0) {
+                        JOptionPane.showMessageDialog(null, "No matching detail_barang_id found!");
+                        return;
+                    }
+
+                    // Hapus Selected Detail Barang
+                    String hapusBarang = "DELETE FROM detailbarang WHERE detail_barang_id = ?";
+                    this.stt = conn.getConnection().prepareStatement(hapusBarang);
+                    this.stt.setInt(1, pbl.detail_barang_id);
+                    this.stt.executeUpdate();
+                    
+                    JOptionPane.showMessageDialog(null, "Hapus Transaksi Berhasil");
+                } else {
+                   JOptionPane.showMessageDialog(null, "Transaksi Hapus Dibatalkan");
+
+                }
+                
+                conn.getConnection().commit();
+
+                refreshTable();
+            }
+        } catch (SQLException e) {
+            // If any error occurs, rollback the transaction
+            try {
+                conn.getConnection().rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+        } finally {
+            try {
+                // Reset auto-commit to true
+                conn.getConnection().setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_hapusBarangMouseClicked
+
+    private void ubahBarangBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ubahBarangBtnMouseClicked
+        try {
+            barang brg = new barang();
+            String updateKodeBarang = "UPDATE kodebarang SET kode_barang = ? WHERE kode_barang_id = ?";
+            String updateNamaBarang = "UPDATE barang SET nama_barang = ? WHERE kode_barang_id = ?";
+            int kode_barang_id = -1;
+            
+            int selectedRow = tableBarang.getSelectedRow();
+            if (selectedRow != -1) {
+                Object kodeBarang = model.getValueAt(selectedRow, 1);
+                String kodeBarangTable = kodeBarang.toString();
+                
+                if(!brg.kode_barang.isEmpty() && !brg.nama_barang.isEmpty()) {
+                    Connection connection = conn.getConnection();
+                    connection.setAutoCommit(false); // Start transaction
+
+                    // Get kode_barang_id
+                    this.stm = connection.prepareStatement("SELECT kode_barang_id FROM kodebarang where kode_barang = ?");
+                    this.stm.setString(1, kodeBarangTable);
+                    this.rs = this.stm.executeQuery();
+                    
+                    if(this.rs.next()) {
+                        kode_barang_id = rs.getInt("kode_barang_id");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Kode Barang tidak ditemukan!");
+                        return; 
+                    }
+                    
+                    // Update Kode Barang
+                    this.stg = connection.prepareStatement(updateKodeBarang);
+                    this.stg.setString(1, brg.kode_barang);
+                    this.stg.setInt(2, kode_barang_id);
+                    this.stg.executeUpdate();
+
+                    // Update Nama Barang
+                    this.stt = connection.prepareStatement(updateNamaBarang);
+                    this.stt.setString(1, brg.nama_barang);
+                    this.stt.setInt(2, kode_barang_id);
+                    stt.executeUpdate();
+
+                    connection.commit(); // Commit transaction
+
+                    refreshTable();
+
+                    JOptionPane.showMessageDialog(null, "Kode dan Nama Barang berhasil di Ubah");
+
+                    KelolaBarang kelolaBarangPage = new KelolaBarang();
+                    kelolaBarangPage.setVisible(true); 
+                    kelolaBarangPage.setLocationRelativeTo(null);
+                    this.setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Harap memasukkan kode dan nama barang", "Input Error", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        } catch(Exception e) {
+            try {
+                conn.getConnection().rollback(); // Rollback on error
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_ubahBarangBtnMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -624,7 +1222,7 @@ public class KelolaBarang extends javax.swing.JFrame {
     private javax.swing.JTextField beliQtyTxt;
     private com.toedter.calendar.JDateChooser beliTanggalBeliChooser;
     private javax.swing.JTextField buatKodeBarangTxt;
-    private javax.swing.JButton jButton14;
+    private javax.swing.JButton hapusBarang;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -641,18 +1239,19 @@ public class KelolaBarang extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton kelolaBarangBtn;
     private javax.swing.JButton kelolaPenggunaBtn;
     private javax.swing.JTextArea keteranganTextBox;
     private javax.swing.JButton logoutBtn4;
     private javax.swing.JTextField namaBarangTxt;
-    private javax.swing.JButton plusBtn;
-    private javax.swing.JButton plusBtn1;
-    private javax.swing.JButton plusBtn2;
-    private javax.swing.JButton plusBtn3;
+    private javax.swing.JButton prosesBeliBarang;
     private javax.swing.JButton salesBtn4;
     private javax.swing.JLabel tabelBarangLbl;
     private javax.swing.JTable tableBarang;
+    private javax.swing.JButton tambahBarangBtn;
     private javax.swing.JLabel transaksiBarangTxt;
     private javax.swing.JButton transaksiBtn;
+    private javax.swing.JButton ubahBarang;
+    private javax.swing.JButton ubahBarangBtn;
     // End of variables declaration//GEN-END:variables
 }

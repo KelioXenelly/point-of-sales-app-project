@@ -317,12 +317,7 @@
             <Component class="javax.swing.JComboBox" name="pilihBarangDropDown">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="Item 1"/>
-                    <StringItem index="1" value="Item 2"/>
-                    <StringItem index="2" value="Item 3"/>
-                    <StringItem index="3" value="Item 4"/>
-                  </StringArray>
+                  <StringArray count="0"/>
                 </Property>
               </Properties>
               <Events>
@@ -378,38 +373,7 @@
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="7" rowCount="30">
-                        <Column editable="false" title="No" type="java.lang.Integer">
-                          <Data value="1"/>
-                          <Data value="2"/>
-                          <Data value="3"/>
-                          <Data value="4"/>
-                          <Data value="5"/>
-                          <Data value="6"/>
-                          <Data value="7"/>
-                          <Data value="8"/>
-                          <Data value="9"/>
-                          <Data value="10"/>
-                          <Data value="null"/>
-                          <Data value="null"/>
-                          <Data value="null"/>
-                          <Data value="null"/>
-                          <Data value="null"/>
-                          <Data value="null"/>
-                          <Data value="null"/>
-                          <Data value="null"/>
-                          <Data value="null"/>
-                          <Data value="null"/>
-                          <Data value="null"/>
-                          <Data value="null"/>
-                          <Data value="null"/>
-                          <Data value="null"/>
-                          <Data value="null"/>
-                          <Data value="null"/>
-                          <Data value="null"/>
-                          <Data value="null"/>
-                          <Data value="null"/>
-                          <Data value="null"/>
-                        </Column>
+                        <Column editable="false" title="No" type="java.lang.Integer"/>
                         <Column editable="false" title="Kode" type="java.lang.String"/>
                         <Column editable="false" title="Nama Barang" type="java.lang.String"/>
                         <Column editable="false" title="Qty" type="java.lang.Integer"/>
@@ -582,8 +546,8 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane3" min="-2" pref="77" max="-2" attributes="0"/>
-                      <EmptySpace pref="94" max="32767" attributes="0"/>
+                      <Component id="jScrollPane3" pref="153" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -634,20 +598,12 @@
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="3" rowCount="3">
                         <Column editable="false" title="Barang" type="java.lang.String">
-                          <Data value="Notebook"/>
-                          <Data value="Mouse"/>
-                          <Data value="Keyboard"/>
+                          <Data value=""/>
+                          <Data value=""/>
+                          <Data value=""/>
                         </Column>
-                        <Column editable="false" title="Qty" type="java.lang.Integer">
-                          <Data value="10"/>
-                          <Data value="10"/>
-                          <Data value="10"/>
-                        </Column>
-                        <Column editable="false" title="Jumlah" type="java.lang.Double">
-                          <Data value="5000000.0"/>
-                          <Data value="50000.0"/>
-                          <Data value="100000.0"/>
-                        </Column>
+                        <Column editable="false" title="Qty" type="java.lang.Integer"/>
+                        <Column editable="false" title="Jumlah" type="java.lang.Double"/>
                       </Table>
                     </Property>
                     <Property name="rowSelectionAllowed" type="boolean" value="false"/>

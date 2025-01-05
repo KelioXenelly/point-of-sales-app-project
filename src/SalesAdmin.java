@@ -176,7 +176,6 @@ public class SalesAdmin extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("Pilih Barang:");
 
-        pilihBarangDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         pilihBarangDropDown.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pilihBarangDropDownActionPerformed(evt);
@@ -204,16 +203,16 @@ public class SalesAdmin extends javax.swing.JFrame {
 
         tableBarang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(1), null, null, null, null, null, null},
-                { new Integer(2), null, null, null, null, null, null},
-                { new Integer(3), null, null, null, null, null, null},
-                { new Integer(4), null, null, null, null, null, null},
-                { new Integer(5), null, null, null, null, null, null},
-                { new Integer(6), null, null, null, null, null, null},
-                { new Integer(7), null, null, null, null, null, null},
-                { new Integer(8), null, null, null, null, null, null},
-                { new Integer(9), null, null, null, null, null, null},
-                { new Integer(10), null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -372,9 +371,9 @@ public class SalesAdmin extends javax.swing.JFrame {
 
         tableKeranjang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Notebook",  new Integer(10),  new Double(5000000.0)},
-                {"Mouse",  new Integer(10),  new Double(50000.0)},
-                {"Keyboard",  new Integer(10),  new Double(100000.0)}
+                {"", null, null},
+                {"", null, null},
+                {"", null, null}
             },
             new String [] {
                 "Barang", "Qty", "Jumlah"
@@ -453,8 +452,8 @@ public class SalesAdmin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
                     .addComponent(jLabel17))
@@ -599,18 +598,7 @@ public class SalesAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_pilihBarangDropDownActionPerformed
 
-    private void kelolaBarangBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaBarangBtnMouseClicked
-        // Create an instance of Sales
-        KelolaBarang kelolaBarangPage = new KelolaBarang();
-        kelolaBarangPage.setVisible(true); // Show the kelolaBarangPage
-        kelolaBarangPage.setLocationRelativeTo(null);
-
-        // Hide the current window
-        this.setVisible(false);
-    }//GEN-LAST:event_kelolaBarangBtnMouseClicked
-
     private void kelolaPenggunaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaPenggunaBtnMouseClicked
-        // Create an instance of Sales
         KelolaPengguna kelolaPenggunaPage = new KelolaPengguna();
         kelolaPenggunaPage.setVisible(true);
         kelolaPenggunaPage.setLocationRelativeTo(null);
@@ -620,7 +608,6 @@ public class SalesAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_kelolaPenggunaBtnMouseClicked
 
     private void transaksiBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transaksiBtnMouseClicked
-        // Create an instance of Sales
         Transaksi transaksiPage = new Transaksi();
         transaksiPage.setVisible(true);
         transaksiPage.setLocationRelativeTo(null);
@@ -646,6 +633,15 @@ public class SalesAdmin extends javax.swing.JFrame {
             removePlaceHolderStyle(diskonTxt1);
         }
     }//GEN-LAST:event_diskonTxt1FocusGained
+
+    private void kelolaBarangBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaBarangBtnMouseClicked
+        KelolaBarang kelolaBarangPage = new KelolaBarang();
+        kelolaBarangPage.setVisible(true);
+        kelolaBarangPage.setLocationRelativeTo(null);
+
+        // Hide the current window
+        this.setVisible(false);
+    }//GEN-LAST:event_kelolaBarangBtnMouseClicked
 
     /**
      * @param args the command line arguments
