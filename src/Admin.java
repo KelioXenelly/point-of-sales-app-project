@@ -45,9 +45,10 @@ public class Admin extends javax.swing.JFrame {
         javax.swing.JLabel jLabel13 = new javax.swing.JLabel();
         salesBtn5 = new javax.swing.JButton();
         kelolaBarangBtn = new javax.swing.JButton();
-        transaksiBtn = new javax.swing.JButton();
+        pemutihanBtn = new javax.swing.JButton();
         kelolaPenggunaBtn = new javax.swing.JButton();
         logoutBtn5 = new javax.swing.JButton();
+        ubahHargaBtn = new javax.swing.JButton();
 
         jMenu3.setText("File");
         jMenuBar2.add(jMenu3);
@@ -99,10 +100,10 @@ public class Admin extends javax.swing.JFrame {
             }
         });
 
-        transaksiBtn.setText("Tabel Transaksi");
-        transaksiBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        pemutihanBtn.setText("Pemutihan Barang");
+        pemutihanBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                transaksiBtnMouseClicked(evt);
+                pemutihanBtnMouseClicked(evt);
             }
         });
 
@@ -120,6 +121,13 @@ public class Admin extends javax.swing.JFrame {
             }
         });
 
+        ubahHargaBtn.setText("Ubah Harga");
+        ubahHargaBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ubahHargaBtnMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -134,10 +142,12 @@ public class Admin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(kelolaBarangBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(transaksiBtn)
+                .addComponent(pemutihanBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(kelolaPenggunaBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ubahHargaBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addComponent(logoutBtn5)
                 .addGap(34, 34, 34))
         );
@@ -155,9 +165,10 @@ public class Admin extends javax.swing.JFrame {
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(salesBtn5)
                             .addComponent(kelolaBarangBtn)
-                            .addComponent(transaksiBtn)
+                            .addComponent(pemutihanBtn)
                             .addComponent(kelolaPenggunaBtn)
-                            .addComponent(logoutBtn5))))
+                            .addComponent(logoutBtn5)
+                            .addComponent(ubahHargaBtn))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -193,12 +204,10 @@ public class Admin extends javax.swing.JFrame {
     }
     
     private void salesBtn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salesBtn5MouseClicked
-        // Create an instance of Sales
         SalesAdmin PointofSalesPage = new SalesAdmin();
-        PointofSalesPage.setVisible(true); // Show the login panel
+        PointofSalesPage.setVisible(true);
         PointofSalesPage.setLocationRelativeTo(null);
 
-        // Hide the current window
         this.setVisible(false);
     }//GEN-LAST:event_salesBtn5MouseClicked
 
@@ -207,34 +216,36 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutBtn5MouseClicked
 
     private void kelolaBarangBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaBarangBtnMouseClicked
-        // Create an instance of Sales
         KelolaBarang kelolaBarangPage = new KelolaBarang();
-        kelolaBarangPage.setVisible(true); // Show the kelolaBarangPage
+        kelolaBarangPage.setVisible(true);
         kelolaBarangPage.setLocationRelativeTo(null);
 
-        // Hide the current window
         this.setVisible(false);
     }//GEN-LAST:event_kelolaBarangBtnMouseClicked
 
     private void kelolaPenggunaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaPenggunaBtnMouseClicked
-        // Create an instance of Sales
         KelolaPengguna kelolaPenggunaPage = new KelolaPengguna();
         kelolaPenggunaPage.setVisible(true);
         kelolaPenggunaPage.setLocationRelativeTo(null);
 
-        // Hide the current window
         this.setVisible(false);
     }//GEN-LAST:event_kelolaPenggunaBtnMouseClicked
 
-    private void transaksiBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transaksiBtnMouseClicked
-        // Create an instance of Sales
-        Transaksi transaksiPage = new Transaksi();
-        transaksiPage.setVisible(true);
-        transaksiPage.setLocationRelativeTo(null);
+    private void pemutihanBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pemutihanBtnMouseClicked
+        PemutihanBarang pemutihanPage = new PemutihanBarang();
+        pemutihanPage.setVisible(true);
+        pemutihanPage.setLocationRelativeTo(null);
 
-        // Hide the current window
         this.setVisible(false);
-    }//GEN-LAST:event_transaksiBtnMouseClicked
+    }//GEN-LAST:event_pemutihanBtnMouseClicked
+
+    private void ubahHargaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ubahHargaBtnMouseClicked
+        UbahHarga ubahHargaPage = new UbahHarga();
+        ubahHargaPage.setVisible(true);
+        ubahHargaPage.setLocationRelativeTo(null);
+
+        this.setVisible(false);
+    }//GEN-LAST:event_ubahHargaBtnMouseClicked
          
     /**
      * @param args the command line arguments
@@ -290,7 +301,8 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JButton kelolaBarangBtn;
     private javax.swing.JButton kelolaPenggunaBtn;
     private javax.swing.JButton logoutBtn5;
+    private javax.swing.JButton pemutihanBtn;
     private javax.swing.JButton salesBtn5;
-    private javax.swing.JButton transaksiBtn;
+    private javax.swing.JButton ubahHargaBtn;
     // End of variables declaration//GEN-END:variables
 }

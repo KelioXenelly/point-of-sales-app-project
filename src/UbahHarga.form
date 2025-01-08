@@ -24,20 +24,13 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jPanel7" alignment="0" max="32767" attributes="0"/>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="384" max="-2" attributes="0"/>
-              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <Component id="jPanel7" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="200" max="-2" attributes="0"/>
-              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="397" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="613" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -64,10 +57,12 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="kelolaBarangBtn" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="transaksiBtn" min="-2" max="-2" attributes="0"/>
+                  <Component id="pemutihanBtn" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="kelolaPenggunaBtn" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="130" max="32767" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="ubahHargaBtn" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="66" max="32767" attributes="0"/>
                   <Component id="logoutBtn5" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
               </Group>
@@ -88,9 +83,10 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="salesBtn5" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="kelolaBarangBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="transaksiBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="pemutihanBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="kelolaPenggunaBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="logoutBtn5" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="ubahHargaBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -142,12 +138,12 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="kelolaBarangBtnMouseClicked"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="transaksiBtn">
+        <Component class="javax.swing.JButton" name="pemutihanBtn">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Tabel Transaksi"/>
+            <Property name="text" type="java.lang.String" value="Pemutihan Barang"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="transaksiBtnMouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pemutihanBtnMouseClicked"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="kelolaPenggunaBtn">
@@ -166,12 +162,15 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="logoutBtn5MouseClicked"/>
           </Events>
         </Component>
+        <Component class="javax.swing.JButton" name="ubahHargaBtn">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Ubah Harga"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="ubahHargaBtnMouseClicked"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="jLabel1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Transaksi Page"/>
-      </Properties>
-    </Component>
   </SubComponents>
 </Form>

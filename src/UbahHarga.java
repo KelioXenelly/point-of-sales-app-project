@@ -1,3 +1,4 @@
+
 import javax.swing.JOptionPane;
 
 /*
@@ -9,15 +10,30 @@ import javax.swing.JOptionPane;
  *
  * @author ROG
  */
-public class User extends javax.swing.JFrame {
+public class UbahHarga extends javax.swing.JFrame {
 
     /**
-     * Creates new form User
+     * Creates new form UbahHarga
      */
-    public User() {
+    public UbahHarga() {
         initComponents();
     }
+    
+    public void logout() {
+        JOptionPane.showMessageDialog(null, "You have been logged out.");
 
+        // Create an instance of LoginPanel
+        LoginPanel loginPage = new LoginPanel(); 
+        loginPage.setVisible(true); // Show the login panel
+        loginPage.setLocationRelativeTo(null);
+        
+        // Hide the current window (Admin/User Panel)
+        this.setVisible(false);
+        
+        // Optional: Dispose of the current window to free up resources
+        this.dispose();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,7 +43,6 @@ public class User extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         javax.swing.JLabel jLabel13 = new javax.swing.JLabel();
@@ -40,8 +55,6 @@ public class User extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
         jPanel7.setBackground(new java.awt.Color(102, 153, 255));
 
         jLabel12.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
@@ -50,7 +63,7 @@ public class User extends javax.swing.JFrame {
 
         jLabel13.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("User");
+        jLabel13.setText("Admin");
 
         salesBtn5.setText("Point of Sales");
         salesBtn5.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -113,7 +126,7 @@ public class User extends javax.swing.JFrame {
                 .addComponent(kelolaPenggunaBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(ubahHargaBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addComponent(logoutBtn5)
                 .addGap(34, 34, 34))
         );
@@ -138,28 +151,17 @@ public class User extends javax.swing.JFrame {
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 613, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 613, Short.MAX_VALUE))
         );
 
         pack();
@@ -208,22 +210,7 @@ public class User extends javax.swing.JFrame {
 
         this.setVisible(false);
     }//GEN-LAST:event_ubahHargaBtnMouseClicked
-    
-    public void logout() {
-        JOptionPane.showMessageDialog(null, "You have been logged out.");
 
-        // Create an instance of LoginPanel
-        LoginPanel loginPage = new LoginPanel();
-        loginPage.setVisible(true); // Show the login panel
-        loginPage.setLocationRelativeTo(null);
-        
-        // Hide the current window (Admin/User Panel)
-        this.setVisible(false);
-        
-        // Optional: Dispose of the current window to free up resources
-        this.dispose();
-    }
-    
     /**
      * @param args the command line arguments
      */
@@ -241,27 +228,26 @@ public class User extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(User.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UbahHarga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(User.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UbahHarga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(User.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UbahHarga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(User.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UbahHarga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new User().setVisible(true);
+                new UbahHarga().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JButton kelolaBarangBtn;
     private javax.swing.JButton kelolaPenggunaBtn;

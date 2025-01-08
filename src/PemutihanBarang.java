@@ -10,15 +10,30 @@ import javax.swing.JOptionPane;
  *
  * @author ROG
  */
-public class Transaksi extends javax.swing.JFrame {
+public class PemutihanBarang extends javax.swing.JFrame {
 
     /**
-     * Creates new form Transaksi
+     * Creates new form PemutihanBarang
      */
-    public Transaksi() {
+    public PemutihanBarang() {
         initComponents();
     }
+    
+    public void logout() {
+        JOptionPane.showMessageDialog(null, "You have been logged out.");
 
+        // Create an instance of LoginPanel
+        LoginPanel loginPage = new LoginPanel(); 
+        loginPage.setVisible(true); // Show the login panel
+        loginPage.setLocationRelativeTo(null);
+        
+        // Hide the current window (Admin/User Panel)
+        this.setVisible(false);
+        
+        // Optional: Dispose of the current window to free up resources
+        this.dispose();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,10 +48,10 @@ public class Transaksi extends javax.swing.JFrame {
         javax.swing.JLabel jLabel13 = new javax.swing.JLabel();
         salesBtn5 = new javax.swing.JButton();
         kelolaBarangBtn = new javax.swing.JButton();
-        transaksiBtn = new javax.swing.JButton();
+        pemutihanBtn = new javax.swing.JButton();
         kelolaPenggunaBtn = new javax.swing.JButton();
         logoutBtn5 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        ubahHargaBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,10 +79,10 @@ public class Transaksi extends javax.swing.JFrame {
             }
         });
 
-        transaksiBtn.setText("Tabel Transaksi");
-        transaksiBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        pemutihanBtn.setText("Pemutihan Barang");
+        pemutihanBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                transaksiBtnMouseClicked(evt);
+                pemutihanBtnMouseClicked(evt);
             }
         });
 
@@ -85,6 +100,13 @@ public class Transaksi extends javax.swing.JFrame {
             }
         });
 
+        ubahHargaBtn.setText("Ubah Harga");
+        ubahHargaBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ubahHargaBtnMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -99,10 +121,12 @@ public class Transaksi extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(kelolaBarangBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(transaksiBtn)
+                .addComponent(pemutihanBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(kelolaPenggunaBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ubahHargaBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                 .addComponent(logoutBtn5)
                 .addGap(34, 34, 34))
         );
@@ -120,94 +144,72 @@ public class Transaksi extends javax.swing.JFrame {
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(salesBtn5)
                             .addComponent(kelolaBarangBtn)
-                            .addComponent(transaksiBtn)
+                            .addComponent(pemutihanBtn)
                             .addComponent(kelolaPenggunaBtn)
-                            .addComponent(logoutBtn5))))
+                            .addComponent(logoutBtn5)
+                            .addComponent(ubahHargaBtn))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
-
-        jLabel1.setText("Transaksi Page");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(384, 384, 384)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(200, 200, 200)
-                .addComponent(jLabel1)
-                .addGap(0, 397, Short.MAX_VALUE))
+                .addGap(0, 613, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    public void logout() {
-        JOptionPane.showMessageDialog(null, "You have been logged out.");
 
-        // Create an instance of LoginPanel
-        LoginPanel loginPage = new LoginPanel(); 
-        loginPage.setVisible(true); // Show the login panel
-        loginPage.setLocationRelativeTo(null);
-        
-        // Hide the current window (Admin/User Panel)
-        this.setVisible(false);
-        
-        // Optional: Dispose of the current window to free up resources
-        this.dispose();
-    }
-    
     private void salesBtn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salesBtn5MouseClicked
-        // Create an instance of Sales
         SalesAdmin PointofSalesPage = new SalesAdmin();
-        PointofSalesPage.setVisible(true); // Show the login panel
+        PointofSalesPage.setVisible(true);
         PointofSalesPage.setLocationRelativeTo(null);
 
-        // Hide the current window
         this.setVisible(false);
     }//GEN-LAST:event_salesBtn5MouseClicked
 
     private void kelolaBarangBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaBarangBtnMouseClicked
-        // Create an instance of Sales
         KelolaBarang kelolaBarangPage = new KelolaBarang();
-        kelolaBarangPage.setVisible(true); // Show the kelolaBarangPage
+        kelolaBarangPage.setVisible(true);
         kelolaBarangPage.setLocationRelativeTo(null);
 
-        // Hide the current window
         this.setVisible(false);
     }//GEN-LAST:event_kelolaBarangBtnMouseClicked
 
-    private void transaksiBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transaksiBtnMouseClicked
-        // Create an instance of Sales
-        Transaksi transaksiPage = new Transaksi();
-        transaksiPage.setVisible(true);
-        transaksiPage.setLocationRelativeTo(null);
+    private void pemutihanBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pemutihanBtnMouseClicked
+        PemutihanBarang pemutihanPage = new PemutihanBarang();
+        pemutihanPage.setVisible(true);
+        pemutihanPage.setLocationRelativeTo(null);
 
-        // Hide the current window
         this.setVisible(false);
-    }//GEN-LAST:event_transaksiBtnMouseClicked
+    }//GEN-LAST:event_pemutihanBtnMouseClicked
 
     private void kelolaPenggunaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaPenggunaBtnMouseClicked
-        // Create an instance of Sales
         KelolaPengguna kelolaPenggunaPage = new KelolaPengguna();
         kelolaPenggunaPage.setVisible(true);
         kelolaPenggunaPage.setLocationRelativeTo(null);
 
-        // Hide the current window
         this.setVisible(false);
     }//GEN-LAST:event_kelolaPenggunaBtnMouseClicked
 
     private void logoutBtn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtn5MouseClicked
         logout();
     }//GEN-LAST:event_logoutBtn5MouseClicked
+
+    private void ubahHargaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ubahHargaBtnMouseClicked
+        UbahHarga ubahHargaPage = new UbahHarga();
+        ubahHargaPage.setVisible(true);
+        ubahHargaPage.setLocationRelativeTo(null);
+
+        this.setVisible(false);
+    }//GEN-LAST:event_ubahHargaBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -226,32 +228,32 @@ public class Transaksi extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Transaksi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PemutihanBarang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Transaksi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PemutihanBarang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Transaksi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PemutihanBarang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Transaksi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PemutihanBarang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Transaksi().setVisible(true);
+                new PemutihanBarang().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JButton kelolaBarangBtn;
     private javax.swing.JButton kelolaPenggunaBtn;
     private javax.swing.JButton logoutBtn5;
+    private javax.swing.JButton pemutihanBtn;
     private javax.swing.JButton salesBtn5;
-    private javax.swing.JButton transaksiBtn;
+    private javax.swing.JButton ubahHargaBtn;
     // End of variables declaration//GEN-END:variables
 }

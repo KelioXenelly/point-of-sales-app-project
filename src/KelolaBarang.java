@@ -29,13 +29,15 @@ public class KelolaBarang extends javax.swing.JFrame {
     protected PreparedStatement stm;
     protected PreparedStatement stt;
     protected PreparedStatement sta;
+    protected PreparedStatement sth;
     protected ResultSet rs;
     protected ResultSet rt;
     String query = "SELECT barang.barang_id, kode_barang, nama_barang, detailbarang.qty, "
                  + "detailbarang.harga_beli, detailbarang.harga_jual, detailbarang.profit "
                  + "FROM barang "
                  + "LEFT JOIN kodebarang ON barang.kode_barang_id = kodebarang.kode_barang_id "
-                 + "LEFT JOIN detailbarang ON barang.barang_id = detailbarang.barang_id";
+                 + "LEFT JOIN detailbarang ON barang.barang_id = detailbarang.barang_id "
+                 + "WHERE qty > 0";
     koneksi conn = new koneksi();
     
     /**
@@ -51,7 +53,7 @@ public class KelolaBarang extends javax.swing.JFrame {
         try {
             this.stm = conn.getConnection().prepareStatement("SELECT kode_barang FROM kodebarang");
             this.rs = this.stm.executeQuery();
-            beliKodeBarang.addItem("");
+            beliKodeBarang.addItem("Pilih sebuah barang");
             while(rs.next()) {
                 beliKodeBarang.addItem(rs.getString("kode_barang"));
             }
@@ -75,7 +77,7 @@ public class KelolaBarang extends javax.swing.JFrame {
         String kode_barang, nama_barang, keterangan;
         double harga_beli, harga_jual;
         Date tanggal_beli;
-        int qty, barang_id, pembelian_id, detail_barang_id;
+        int qty, barang_id, detail_barang_id, kode_barang_id;
         double profit;
         
         public pembelian() {
@@ -89,22 +91,28 @@ public class KelolaBarang extends javax.swing.JFrame {
                 keterangan = keteranganTextBox.getText();
                 profit = (harga_jual * qty) - (harga_beli * qty);
                 
-                this.stm = conn.getConnection().prepareStatement("SELECT barang.barang_id, kodebarang.kode_barang "
+                this.stm = conn.getConnection().prepareStatement("SELECT barang.barang_id, kodebarang.kode_barang, barang.kode_barang_id "
                                                                + "FROM barang "
                                                                + "INNER JOIN kodebarang ON kodebarang.kode_barang_id = barang.kode_barang_id");
                 this.rs = this.stm.executeQuery();
                 
                 barang_id = -1; // Default value if no match is found
+                kode_barang_id = -1;
                 
                 while(this.rs.next()) {
                     if(kode_barang.equals(this.rs.getString("kode_barang"))) {
                         barang_id = this.rs.getInt("barang_id");
+                        kode_barang_id = this.rs.getInt("kode_barang_id");
                         break; // Exit loop after finding the match
                     }
                 }
                 
                 if (barang_id == -1) {
                     JOptionPane.showMessageDialog(null, "Barang ID not found for Kode Barang: " + kode_barang);
+                }
+                
+                if (kode_barang_id == -1) {
+                    JOptionPane.showMessageDialog(null, "kode_barang_id found for Kode Barang: " + kode_barang);
                 }
             } catch(Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
@@ -148,15 +156,15 @@ public class KelolaBarang extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        buatKodeBarangTxt.setText("");
-        namaBarangTxt.setText("");
+        buatKodeBarangTxt.setText("Buat Kode Barang");
+        namaBarangTxt.setText("Masukkan Nama Barang");
         beliKodeBarang.setSelectedItem("");
         beliTanggalBeliChooser.setDate(null);
         beliNamaBarangTxt.setText("");
         beliHargaBeliTxt.setText("");
         beliQtyTxt.setText("");
         beliHargaJualTxt.setText("");
-        keteranganTextBox.setText("");
+        keteranganTextBox.setText("Tulis Keterangan");
     }
     
     /**
@@ -169,14 +177,6 @@ public class KelolaBarang extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
-        javax.swing.JLabel jLabel11 = new javax.swing.JLabel();
-        salesBtn4 = new javax.swing.JButton();
-        kelolaBarangBtn = new javax.swing.JButton();
-        transaksiBtn = new javax.swing.JButton();
-        kelolaPenggunaBtn = new javax.swing.JButton();
-        logoutBtn4 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         tabelBarangLbl = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -207,96 +207,19 @@ public class KelolaBarang extends javax.swing.JFrame {
         prosesBeliBarang = new javax.swing.JButton();
         ubahBarang = new javax.swing.JButton();
         hapusBarang = new javax.swing.JButton();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        javax.swing.JLabel jLabel17 = new javax.swing.JLabel();
+        salesBtn5 = new javax.swing.JButton();
+        kelolaBarangBtn = new javax.swing.JButton();
+        pemutihanBtn = new javax.swing.JButton();
+        kelolaPenggunaBtn = new javax.swing.JButton();
+        logoutBtn5 = new javax.swing.JButton();
+        ubahHargaBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        jPanel6.setBackground(new java.awt.Color(102, 153, 255));
-
-        jLabel10.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setText("Selamat datang,");
-
-        jLabel11.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("Admin");
-
-        salesBtn4.setText("Point of Sales");
-        salesBtn4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                salesBtn4MouseClicked(evt);
-            }
-        });
-
-        kelolaBarangBtn.setText("Kelola Barang");
-        kelolaBarangBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                kelolaBarangBtnMouseClicked(evt);
-            }
-        });
-
-        transaksiBtn.setText("Tabel Transaksi");
-        transaksiBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                transaksiBtnMouseClicked(evt);
-            }
-        });
-
-        kelolaPenggunaBtn.setText("Kelola Pengguna");
-        kelolaPenggunaBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                kelolaPenggunaBtnMouseClicked(evt);
-            }
-        });
-
-        logoutBtn4.setText("Logout");
-        logoutBtn4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                logoutBtn4MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(66, 66, 66)
-                .addComponent(salesBtn4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(kelolaBarangBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(transaksiBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(kelolaPenggunaBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(logoutBtn4)
-                .addGap(34, 34, 34))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel11))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(salesBtn4)
-                            .addComponent(kelolaBarangBtn)
-                            .addComponent(transaksiBtn)
-                            .addComponent(kelolaPenggunaBtn)
-                            .addComponent(logoutBtn4))))
-                .addContainerGap(21, Short.MAX_VALUE))
-        );
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -432,21 +355,20 @@ public class KelolaBarang extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(tabelBarangLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel7Layout.createSequentialGroup()
-                            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel5)
-                                .addComponent(buatKodeBarangTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel12)
-                                .addGroup(jPanel7Layout.createSequentialGroup()
-                                    .addComponent(namaBarangTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(tambahBarangBtn)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(ubahBarangBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                    .addComponent(tabelBarangLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(buatKodeBarangTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(namaBarangTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tambahBarangBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ubahBarangBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -501,9 +423,9 @@ public class KelolaBarang extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel14.setText("Keterangan:");
 
-        beliKodeBarang.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                beliKodeBarangMouseClicked(evt);
+        beliKodeBarang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                beliKodeBarangActionPerformed(evt);
             }
         });
 
@@ -582,7 +504,7 @@ public class KelolaBarang extends javax.swing.JFrame {
                                     .addComponent(beliTanggalBeliChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabel9)
                             .addComponent(jLabel8))
-                        .addGap(0, 7, Short.MAX_VALUE)))
+                        .addGap(0, 58, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -626,6 +548,102 @@ public class KelolaBarang extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jPanel8.setBackground(new java.awt.Color(102, 153, 255));
+
+        jLabel16.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setText("Selamat datang,");
+
+        jLabel17.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel17.setText("Admin");
+
+        salesBtn5.setText("Point of Sales");
+        salesBtn5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                salesBtn5MouseClicked(evt);
+            }
+        });
+
+        kelolaBarangBtn.setText("Kelola Barang");
+        kelolaBarangBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                kelolaBarangBtnMouseClicked(evt);
+            }
+        });
+
+        pemutihanBtn.setText("Pemutihan Barang");
+        pemutihanBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pemutihanBtnMouseClicked(evt);
+            }
+        });
+
+        kelolaPenggunaBtn.setText("Kelola Pengguna");
+        kelolaPenggunaBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                kelolaPenggunaBtnMouseClicked(evt);
+            }
+        });
+
+        logoutBtn5.setText("Logout");
+        logoutBtn5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logoutBtn5MouseClicked(evt);
+            }
+        });
+
+        ubahHargaBtn.setText("Ubah Harga");
+        ubahHargaBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ubahHargaBtnMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(66, 66, 66)
+                .addComponent(salesBtn5, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(kelolaBarangBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pemutihanBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(kelolaPenggunaBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ubahHargaBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addComponent(logoutBtn5)
+                .addGap(34, 34, 34))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel17))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(salesBtn5)
+                            .addComponent(kelolaBarangBtn)
+                            .addComponent(pemutihanBtn)
+                            .addComponent(kelolaPenggunaBtn)
+                            .addComponent(logoutBtn5)
+                            .addComponent(ubahHargaBtn))))
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -636,12 +654,12 @@ public class KelolaBarang extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -706,40 +724,6 @@ public class KelolaBarang extends javax.swing.JFrame {
         TextArea.setForeground(Color.black);
     }
     
-    private void salesBtn4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salesBtn4MouseClicked
-        // Create an instance of Sales
-        SalesAdmin PointofSalesPage = new SalesAdmin();
-        PointofSalesPage.setVisible(true); // Show the login panel
-        PointofSalesPage.setLocationRelativeTo(null);
-
-        // Hide the current window
-        this.setVisible(false);
-    }//GEN-LAST:event_salesBtn4MouseClicked
-
-    private void logoutBtn4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtn4MouseClicked
-        logout();
-    }//GEN-LAST:event_logoutBtn4MouseClicked
-
-    private void kelolaPenggunaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaPenggunaBtnMouseClicked
-        // TODO add your handling code here:// Create an instance of Sales
-        KelolaPengguna kelolaPenggunaPage = new KelolaPengguna();
-        kelolaPenggunaPage.setVisible(true);
-        kelolaPenggunaPage.setLocationRelativeTo(null);
-
-        // Hide the current window
-        this.setVisible(false);
-    }//GEN-LAST:event_kelolaPenggunaBtnMouseClicked
-
-    private void transaksiBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transaksiBtnMouseClicked
-        // Create an instance of Sales
-        Transaksi transaksiPage = new Transaksi();
-        transaksiPage.setVisible(true);
-        transaksiPage.setLocationRelativeTo(null);
-
-        // Hide the current window
-        this.setVisible(false);
-    }//GEN-LAST:event_transaksiBtnMouseClicked
-
     private void buatKodeBarangTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_buatKodeBarangTxtFocusGained
         if(buatKodeBarangTxt.getText().equals("Buat Kode Barang")) {
             buatKodeBarangTxt.setText(null);
@@ -819,10 +803,11 @@ public class KelolaBarang extends javax.swing.JFrame {
                 
                 connection.commit(); // Commit transaction
                 
-                refreshTable();
-                
                 JOptionPane.showMessageDialog(null, "Barang berhasil di tambahkan");
                 
+                Thread.sleep(1000);
+                refreshTable();
+
                 KelolaBarang kelolaBarangPage = new KelolaBarang();
                 kelolaBarangPage.setVisible(true); 
                 kelolaBarangPage.setLocationRelativeTo(null);
@@ -839,16 +824,6 @@ public class KelolaBarang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }//GEN-LAST:event_tambahBarangBtnMouseClicked
-
-    private void kelolaBarangBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaBarangBtnMouseClicked
-        // Create an instance of Sales
-        KelolaBarang kelolaBarangPage = new KelolaBarang();
-        kelolaBarangPage.setVisible(true); // Show the kelolaBarangPage
-        kelolaBarangPage.setLocationRelativeTo(null);
-
-        // Hide the current window
-        this.setVisible(false);
-    }//GEN-LAST:event_kelolaBarangBtnMouseClicked
 
     private void tableBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableBarangMouseClicked
         try {
@@ -899,9 +874,6 @@ public class KelolaBarang extends javax.swing.JFrame {
                     stm.setInt(2, pbl.barang_id);
                     stm.setDouble(3, pbl.harga_beli);
                     stm.executeUpdate();
-
-                    JOptionPane.showMessageDialog(null, "Stok berhasil diperbarui!");
-
                 } else {
                     // Jika harga beli berbeda, insert data baru
                     String insertQuery = "INSERT INTO detailbarang (barang_id, qty, harga_beli, harga_jual, profit) VALUES (?, ?, ?, ?, ?)";
@@ -912,8 +884,6 @@ public class KelolaBarang extends javax.swing.JFrame {
                     stm.setDouble(4, pbl.harga_jual);
                     stm.setDouble(5, pbl.profit);
                     stm.executeUpdate();
-
-                    JOptionPane.showMessageDialog(null, "Stok baru berhasil ditambahkan!");
                 }
                 
                 this.stm = conn.getConnection().prepareStatement("insert into pembelian "
@@ -930,9 +900,10 @@ public class KelolaBarang extends javax.swing.JFrame {
                 stm.setString(7, pbl.keterangan);
                 stm.executeUpdate();
                 
-                refreshTable();
-                
                 JOptionPane.showMessageDialog(null, "Transaksi Pembelian Berhasil!");
+                
+                Thread.sleep(1000);
+                refreshTable();
             } else {
                 JOptionPane.showMessageDialog(null, "Harap memasukkan data secara lengkap", "Input Error", JOptionPane.WARNING_MESSAGE);
             }
@@ -942,31 +913,6 @@ public class KelolaBarang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }//GEN-LAST:event_prosesBeliBarangMouseClicked
-
-    private void beliKodeBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_beliKodeBarangMouseClicked
-        try {
-            String sql = "SELECT kodebarang.kode_barang, barang.nama_barang "
-                       + "FROM barang "
-                       + "INNER JOIN kodebarang ON kodebarang.kode_barang_id = barang.kode_barang_id "
-                       + "WHERE kodebarang.kode_barang = ?";
-
-            this.stm = conn.getConnection().prepareStatement(sql);
-            String kodeBarang = (beliKodeBarang.getSelectedItem() != null) ? beliKodeBarang.getSelectedItem().toString() : "";
-
-            this.stm.setString(1, kodeBarang);
-            this.rs = stm.executeQuery();
-
-            if (rs.next()) {
-                beliNamaBarangTxt.setText(rs.getString("nama_barang"));
-            } else {
-                beliNamaBarangTxt.setText("");
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
-        }
-    }//GEN-LAST:event_beliKodeBarangMouseClicked
 
     private void ubahBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ubahBarangMouseClicked
         try {
@@ -986,7 +932,6 @@ public class KelolaBarang extends javax.swing.JFrame {
                 this.stt.setString(1, pbl.nama_barang);
                 this.stt.setInt(2, pbl.barang_id);
                 this.stt.executeUpdate();
-                
                 
                 // Fetch detail_barang_id
                 this.stm = conn.getConnection().prepareStatement("SELECT detail_barang_id, qty, harga_beli "
@@ -1019,9 +964,11 @@ public class KelolaBarang extends javax.swing.JFrame {
 
                 conn.getConnection().commit();
 
-                refreshTable();
 
-                JOptionPane.showMessageDialog(null, "Ubah Transaksi Berhasil");
+                JOptionPane.showMessageDialog(null, "Ubah Barang Berhasil");
+                
+                Thread.sleep(1000);
+                refreshTable();
             } else {
                 JOptionPane.showMessageDialog(null, "No row selected.");
             }
@@ -1033,6 +980,8 @@ public class KelolaBarang extends javax.swing.JFrame {
                 ex.printStackTrace();
             }
             e.printStackTrace();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(KelolaBarang.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 // Reset auto-commit to true
@@ -1047,55 +996,77 @@ public class KelolaBarang extends javax.swing.JFrame {
         try {
             pembelian pbl = new pembelian();
             conn.getConnection().setAutoCommit(false);
+            
+            if(!pbl.nama_barang.equals("") && pbl.qty != 0 && pbl.harga_beli != 0 && pbl.harga_jual != 0) {
+                int selectedRow = tableBarang.getSelectedRow();
+                if (selectedRow != -1) {
+                    Object qty = model.getValueAt(selectedRow, 3);
+                    Object hargaBeli = model.getValueAt(selectedRow, 4);
+                    Object hargaJual = model.getValueAt(selectedRow, 5);
+                    int qtyTable = Integer.parseInt(qty.toString());
+                    double hargaBeliTable = Double.parseDouble(hargaBeli.toString());
+                    double hargaJualTable = Double.parseDouble(hargaJual.toString());
 
-            int selectedRow = tableBarang.getSelectedRow();
-            if (selectedRow != -1) {
-                Object qty = model.getValueAt(selectedRow, 3);
-                Object hargaBeli = model.getValueAt(selectedRow, 4);
-                Object hargaJual = model.getValueAt(selectedRow, 5);
-                int qtyTable = Integer.parseInt(qty.toString());
-                double hargaBeliTable = Double.parseDouble(hargaBeli.toString());
-                double hargaJualTable = Double.parseDouble(hargaJual.toString());
-                
-                int dialogBtn = JOptionPane.YES_NO_OPTION;
-                int confirmDelete = JOptionPane.showConfirmDialog(null, "Apakah Anda Yakin ingin menghapus barang tersebut?", "Warning", dialogBtn);
-                
-                if(confirmDelete == JOptionPane.YES_OPTION) {
-                    // Fetch detail_barang_id
-                    this.stm = conn.getConnection().prepareStatement("SELECT detail_barang_id, qty, harga_beli, harga_jual "
-                                                                   + "FROM detailbarang where barang_id = ?");
-                    this.stm.setInt(1, pbl.barang_id);
-                    this.rt = this.stm.executeQuery();
+                    int dialogBtn = JOptionPane.YES_NO_OPTION;
+                    int confirmDelete = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus barang tersebut?", "Warning", dialogBtn);
 
-                    while(this.rt.next()) {
-                        if(qtyTable == this.rt.getInt("qty") && hargaBeliTable == this.rt.getDouble("harga_beli") && 
-                           hargaJualTable == this.rt.getDouble("harga_jual")) {
-                            pbl.detail_barang_id = this.rt.getInt("detail_barang_id");
-                            break;
+                    if(confirmDelete == JOptionPane.YES_OPTION) {
+                        // Fetch detail_barang_id
+                        this.stm = conn.getConnection().prepareStatement("SELECT detail_barang_id, qty, harga_beli, harga_jual "
+                                                                       + "FROM detailbarang where barang_id = ?");
+                        this.stm.setInt(1, pbl.barang_id);
+                        this.rt = this.stm.executeQuery();
+
+                        while(this.rt.next()) {
+                            if(qtyTable == this.rt.getInt("qty") && hargaBeliTable == this.rt.getDouble("harga_beli") && 
+                               hargaJualTable == this.rt.getDouble("harga_jual")) {
+                                pbl.detail_barang_id = this.rt.getInt("detail_barang_id");
+                                break;
+                            }
                         }
+
+                        // If no match found
+                        if (pbl.detail_barang_id == 0) {
+                            JOptionPane.showMessageDialog(null, "No matching detail_barang_id found!");
+                            return;
+                        }
+                        
+                        // Hapus Selected Pembelian
+                        String hapusPembelianBarang = "DELETE FROM pembelian WHERE barang_id = ? AND harga_beli = ?";
+                        this.sth = conn.getConnection().prepareStatement(hapusPembelianBarang);
+                        this.sth.setInt(1, pbl.barang_id);
+                        this.sth.setDouble(2, pbl.harga_beli);
+                        this.sth.executeUpdate();
+                        
+                        // Hapus Selected Detail Barang
+                        String hapusDetailBarang = "DELETE FROM detailbarang WHERE detail_barang_id = ?";
+                        this.stt = conn.getConnection().prepareStatement(hapusDetailBarang);
+                        this.stt.setInt(1, pbl.detail_barang_id);
+                        this.stt.executeUpdate();
+
+                        // Hapus selected nama Barang
+                        String hapusNamaBarang = "DELETE FROM barang WHERE barang_id = ?";
+                        this.sta = conn.getConnection().prepareStatement(hapusNamaBarang);
+                        this.sta.setInt(1, pbl.barang_id);
+                        this.sta.executeUpdate();
+
+                        // Hapus selected kode Barang
+                        String hapusKodeBarang = "DELETE FROM kodebarang WHERE kode_barang_id = ?";
+                        this.stg = conn.getConnection().prepareStatement(hapusKodeBarang);
+                        this.stg.setInt(1, pbl.kode_barang_id);
+                        this.stg.executeUpdate();
+
+                        JOptionPane.showMessageDialog(null, "Hapus Transaksi Berhasil");
+                        conn.getConnection().commit();
+                        Thread.sleep(1000);
+                        refreshTable();
+                    } else {
+                       JOptionPane.showMessageDialog(null, "Transaksi Hapus Dibatalkan");
                     }
 
-                    // If no match found
-                    if (pbl.detail_barang_id == 0) {
-                        JOptionPane.showMessageDialog(null, "No matching detail_barang_id found!");
-                        return;
-                    }
-
-                    // Hapus Selected Detail Barang
-                    String hapusBarang = "DELETE FROM detailbarang WHERE detail_barang_id = ?";
-                    this.stt = conn.getConnection().prepareStatement(hapusBarang);
-                    this.stt.setInt(1, pbl.detail_barang_id);
-                    this.stt.executeUpdate();
-                    
-                    JOptionPane.showMessageDialog(null, "Hapus Transaksi Berhasil");
                 } else {
-                   JOptionPane.showMessageDialog(null, "Transaksi Hapus Dibatalkan");
-
+                    JOptionPane.showMessageDialog(null, "Harap pilih barang yang mau dihapus");
                 }
-                
-                conn.getConnection().commit();
-
-                refreshTable();
             }
         } catch (SQLException e) {
             // If any error occurs, rollback the transaction
@@ -1105,6 +1076,8 @@ public class KelolaBarang extends javax.swing.JFrame {
                 ex.printStackTrace();
             }
             e.printStackTrace();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(KelolaBarang.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 // Reset auto-commit to true
@@ -1157,10 +1130,11 @@ public class KelolaBarang extends javax.swing.JFrame {
 
                     connection.commit(); // Commit transaction
 
-                    refreshTable();
-
                     JOptionPane.showMessageDialog(null, "Kode dan Nama Barang berhasil di Ubah");
-
+                    
+                    Thread.sleep(1000);
+                    refreshTable();
+                    
                     KelolaBarang kelolaBarangPage = new KelolaBarang();
                     kelolaBarangPage.setVisible(true); 
                     kelolaBarangPage.setLocationRelativeTo(null);
@@ -1178,6 +1152,79 @@ public class KelolaBarang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }//GEN-LAST:event_ubahBarangBtnMouseClicked
+
+    private void beliKodeBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beliKodeBarangActionPerformed
+        try {
+            String kodeBarang = beliKodeBarang.getSelectedItem().toString();
+            if(!kodeBarang.equals("Pilih sebuah barang")) {
+                String sql = "SELECT kodebarang.kode_barang, barang.nama_barang "
+                           + "FROM barang "
+                           + "INNER JOIN kodebarang ON kodebarang.kode_barang_id = barang.kode_barang_id "
+                           + "WHERE kodebarang.kode_barang = ?";
+
+                this.stm = conn.getConnection().prepareStatement(sql);
+                this.stm.setString(1, kodeBarang);
+                this.rs = stm.executeQuery();
+
+                if (rs.next()) {
+                    beliNamaBarangTxt.setText(rs.getString("nama_barang"));
+                } else {
+                    beliNamaBarangTxt.setText("");
+                }
+            } else {
+                beliNamaBarangTxt.setText("");
+
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_beliKodeBarangActionPerformed
+
+    private void salesBtn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salesBtn5MouseClicked
+        SalesAdmin PointofSalesPage = new SalesAdmin();
+        PointofSalesPage.setVisible(true);
+        PointofSalesPage.setLocationRelativeTo(null);
+
+        this.setVisible(false);
+    }//GEN-LAST:event_salesBtn5MouseClicked
+
+    private void kelolaBarangBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaBarangBtnMouseClicked
+        KelolaBarang kelolaBarangPage = new KelolaBarang();
+        kelolaBarangPage.setVisible(true);
+        kelolaBarangPage.setLocationRelativeTo(null);
+
+        this.setVisible(false);
+    }//GEN-LAST:event_kelolaBarangBtnMouseClicked
+
+    private void pemutihanBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pemutihanBtnMouseClicked
+        PemutihanBarang pemutihanPage = new PemutihanBarang();
+        pemutihanPage.setVisible(true);
+        pemutihanPage.setLocationRelativeTo(null);
+
+        this.setVisible(false);
+    }//GEN-LAST:event_pemutihanBtnMouseClicked
+
+    private void kelolaPenggunaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaPenggunaBtnMouseClicked
+        KelolaPengguna kelolaPenggunaPage = new KelolaPengguna();
+        kelolaPenggunaPage.setVisible(true);
+        kelolaPenggunaPage.setLocationRelativeTo(null);
+
+        this.setVisible(false);
+    }//GEN-LAST:event_kelolaPenggunaBtnMouseClicked
+
+    private void logoutBtn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtn5MouseClicked
+        logout();
+    }//GEN-LAST:event_logoutBtn5MouseClicked
+
+    private void ubahHargaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ubahHargaBtnMouseClicked
+        UbahHarga ubahHargaPage = new UbahHarga();
+        ubahHargaPage.setVisible(true);
+        ubahHargaPage.setLocationRelativeTo(null);
+
+        this.setVisible(false);
+    }//GEN-LAST:event_ubahHargaBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1223,11 +1270,11 @@ public class KelolaBarang extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser beliTanggalBeliChooser;
     private javax.swing.JTextField buatKodeBarangTxt;
     private javax.swing.JButton hapusBarang;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -1235,23 +1282,24 @@ public class KelolaBarang extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton kelolaBarangBtn;
     private javax.swing.JButton kelolaPenggunaBtn;
     private javax.swing.JTextArea keteranganTextBox;
-    private javax.swing.JButton logoutBtn4;
+    private javax.swing.JButton logoutBtn5;
     private javax.swing.JTextField namaBarangTxt;
+    private javax.swing.JButton pemutihanBtn;
     private javax.swing.JButton prosesBeliBarang;
-    private javax.swing.JButton salesBtn4;
+    private javax.swing.JButton salesBtn5;
     private javax.swing.JLabel tabelBarangLbl;
     private javax.swing.JTable tableBarang;
     private javax.swing.JButton tambahBarangBtn;
     private javax.swing.JLabel transaksiBarangTxt;
-    private javax.swing.JButton transaksiBtn;
     private javax.swing.JButton ubahBarang;
     private javax.swing.JButton ubahBarangBtn;
+    private javax.swing.JButton ubahHargaBtn;
     // End of variables declaration//GEN-END:variables
 }
