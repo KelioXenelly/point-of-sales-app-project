@@ -1,3 +1,4 @@
+
 import javax.swing.JOptionPane;
 
 /*
@@ -9,15 +10,30 @@ import javax.swing.JOptionPane;
  *
  * @author ROG
  */
-public class Admin extends javax.swing.JFrame {
+public class TabelTransaksi extends javax.swing.JFrame {
 
     /**
-     * Creates new form Admin
+     * Creates new form TabelTransaksi
      */
-    public Admin() {
+    public TabelTransaksi() {
         initComponents();
     }
+    
+    public void logout() {
+        JOptionPane.showMessageDialog(null, "You have been logged out.");
 
+        // Create an instance of LoginPanel
+        LoginPanel loginPage = new LoginPanel(); 
+        loginPage.setVisible(true); // Show the login panel
+        loginPage.setLocationRelativeTo(null);
+        
+        // Hide the current window (Admin/User Panel)
+        this.setVisible(false);
+        
+        // Optional: Dispose of the current window to free up resources
+        this.dispose();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,19 +43,6 @@ public class Admin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuBar2 = new javax.swing.JMenuBar();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
-        jPopupMenu1 = new javax.swing.JPopupMenu();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
-        jMenu8 = new javax.swing.JMenu();
-        jMenu6 = new javax.swing.JMenu();
-        jMenuBar3 = new javax.swing.JMenuBar();
-        jMenu7 = new javax.swing.JMenu();
-        jMenu9 = new javax.swing.JMenu();
         jPanel1 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
@@ -51,30 +54,6 @@ public class Admin extends javax.swing.JFrame {
         logoutBtn5 = new javax.swing.JButton();
         ubahHargaBtn = new javax.swing.JButton();
         tabelTransaksiBtn = new javax.swing.JButton();
-
-        jMenu3.setText("File");
-        jMenuBar2.add(jMenu3);
-
-        jMenu4.setText("Edit");
-        jMenuBar2.add(jMenu4);
-
-        jMenu1.setText("jMenu1");
-
-        jMenu2.setText("File");
-        jMenuBar1.add(jMenu2);
-
-        jMenu5.setText("Edit");
-        jMenuBar1.add(jMenu5);
-
-        jMenu8.setText("jMenu8");
-
-        jMenu6.setText("jMenu6");
-
-        jMenu7.setText("File");
-        jMenuBar3.add(jMenu7);
-
-        jMenu9.setText("Edit");
-        jMenuBar3.add(jMenu9);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -190,7 +169,7 @@ public class Admin extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,21 +192,6 @@ public class Admin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    public void logout() {
-        JOptionPane.showMessageDialog(null, "You have been logged out.");
-
-        // Create an instance of LoginPanel
-        LoginPanel loginPage = new LoginPanel(); 
-        loginPage.setVisible(true); // Show the login panel
-        loginPage.setLocationRelativeTo(null);
-        
-        // Hide the current window (Admin/User Panel)
-        this.setVisible(false);
-        
-        // Optional: Dispose of the current window to free up resources
-        this.dispose();
-    }
-    
     private void salesBtn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salesBtn5MouseClicked
         SalesAdmin PointofSalesPage = new SalesAdmin();
         PointofSalesPage.setVisible(true);
@@ -235,10 +199,6 @@ public class Admin extends javax.swing.JFrame {
 
         this.setVisible(false);
     }//GEN-LAST:event_salesBtn5MouseClicked
-
-    private void logoutBtn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtn5MouseClicked
-        logout();
-    }//GEN-LAST:event_logoutBtn5MouseClicked
 
     private void kelolaBarangBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaBarangBtnMouseClicked
         KelolaBarang kelolaBarangPage = new KelolaBarang();
@@ -248,6 +208,14 @@ public class Admin extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_kelolaBarangBtnMouseClicked
 
+    private void pemutihanBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pemutihanBtnMouseClicked
+        PemutihanBarang pemutihanPage = new PemutihanBarang();
+        pemutihanPage.setVisible(true);
+        pemutihanPage.setLocationRelativeTo(null);
+
+        this.setVisible(false);
+    }//GEN-LAST:event_pemutihanBtnMouseClicked
+
     private void kelolaPenggunaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaPenggunaBtnMouseClicked
         KelolaPengguna kelolaPenggunaPage = new KelolaPengguna();
         kelolaPenggunaPage.setVisible(true);
@@ -256,13 +224,9 @@ public class Admin extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_kelolaPenggunaBtnMouseClicked
 
-    private void pemutihanBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pemutihanBtnMouseClicked
-        PemutihanBarang pemutihanPage = new PemutihanBarang();
-        pemutihanPage.setVisible(true);
-        pemutihanPage.setLocationRelativeTo(null);
-
-        this.setVisible(false);
-    }//GEN-LAST:event_pemutihanBtnMouseClicked
+    private void logoutBtn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtn5MouseClicked
+        logout();
+    }//GEN-LAST:event_logoutBtn5MouseClicked
 
     private void ubahHargaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ubahHargaBtnMouseClicked
         UbahHarga ubahHargaPage = new UbahHarga();
@@ -279,7 +243,7 @@ public class Admin extends javax.swing.JFrame {
 
         this.setVisible(false);
     }//GEN-LAST:event_tabelTransaksiBtnMouseClicked
-         
+
     /**
      * @param args the command line arguments
      */
@@ -297,41 +261,28 @@ public class Admin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TabelTransaksi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TabelTransaksi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TabelTransaksi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TabelTransaksi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Admin().setVisible(true);
+                new TabelTransaksi().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
-    private javax.swing.JMenu jMenu7;
-    private javax.swing.JMenu jMenu8;
-    private javax.swing.JMenu jMenu9;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuBar jMenuBar3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JButton kelolaBarangBtn;
     private javax.swing.JButton kelolaPenggunaBtn;
     private javax.swing.JButton logoutBtn5;

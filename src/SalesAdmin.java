@@ -37,7 +37,8 @@ public class SalesAdmin extends javax.swing.JFrame {
                  + "FROM barang "
                  + "LEFT JOIN kodebarang ON barang.kode_barang_id = kodebarang.kode_barang_id "
                  + "LEFT JOIN detailbarang ON barang.barang_id = detailbarang.barang_id "
-                 + "WHERE qty > 0";
+                 + "WHERE detailbarang.qty > 0 "
+                 + "ORDER BY kode_barang ASC";
     koneksi conn = new koneksi();
     
     /**
@@ -143,7 +144,7 @@ public class SalesAdmin extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        pilihBarangDropDown.setSelectedItem("");
+        pilihBarangDropDown.setSelectedItem("Pilih sebuah barang");
         jumlahTxt.setText("Masukkan Jumlah Barang");
         diskonTxt.setText("Masukkan Diskon (%)");
         bayarTxt.setText("");
@@ -286,22 +287,14 @@ public class SalesAdmin extends javax.swing.JFrame {
         prosesBtn = new javax.swing.JButton();
         jPanel10 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
+        javax.swing.JLabel jLabel19 = new javax.swing.JLabel();
         salesBtn5 = new javax.swing.JButton();
-        kelolaBarangBtn1 = new javax.swing.JButton();
+        kelolaBarangBtn = new javax.swing.JButton();
         pemutihanBtn = new javax.swing.JButton();
-        kelolaPenggunaBtn1 = new javax.swing.JButton();
+        kelolaPenggunaBtn = new javax.swing.JButton();
         logoutBtn5 = new javax.swing.JButton();
         ubahHargaBtn = new javax.swing.JButton();
-        jPanel11 = new javax.swing.JPanel();
-        jLabel20 = new javax.swing.JLabel();
-        javax.swing.JLabel jLabel22 = new javax.swing.JLabel();
-        salesBtn6 = new javax.swing.JButton();
-        kelolaBarangBtn2 = new javax.swing.JButton();
-        pemutihanBtn1 = new javax.swing.JButton();
-        kelolaPenggunaBtn2 = new javax.swing.JButton();
-        logoutBtn6 = new javax.swing.JButton();
-        ubahHargaBtn1 = new javax.swing.JButton();
+        tabelTransaksiBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -453,22 +446,24 @@ public class SalesAdmin extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                    .addComponent(currentDatelbl, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(currentDatelbl, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)
-                            .addComponent(pilihBarangDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(pilihBarangDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addGap(13, 13, 13)
+                                .addComponent(jLabel12))
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
                                 .addComponent(jumlahTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(12, 12, 12)
+                                .addComponent(minusBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(minusBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(plusBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel12))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(okBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(plusBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(okBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -476,32 +471,26 @@ public class SalesAdmin extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addGap(65, 65, 65)
-                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(plusBtn)
-                                    .addComponent(minusBtn)))
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel7Layout.createSequentialGroup()
-                                        .addComponent(currentDatelbl)
-                                        .addGap(70, 70, 70))
-                                    .addGroup(jPanel7Layout.createSequentialGroup()
-                                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jLabel12))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(pilihBarangDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jumlahTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(65, 65, 65)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(plusBtn)
+                            .addComponent(minusBtn)))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(currentDatelbl)
+                        .addGap(14, 14, 14)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel12))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(pilihBarangDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jumlahTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addContainerGap()
                         .addComponent(okBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 16, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -616,15 +605,15 @@ public class SalesAdmin extends javax.swing.JFrame {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(jLabel21)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
                         .addComponent(grandTotalLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
+                            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+                            .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(persentaseDiskonLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -703,10 +692,10 @@ public class SalesAdmin extends javax.swing.JFrame {
             }
         });
 
-        kelolaBarangBtn1.setText("Kelola Barang");
-        kelolaBarangBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
+        kelolaBarangBtn.setText("Kelola Barang");
+        kelolaBarangBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                kelolaBarangBtn1MouseClicked(evt);
+                kelolaBarangBtnMouseClicked(evt);
             }
         });
 
@@ -717,10 +706,10 @@ public class SalesAdmin extends javax.swing.JFrame {
             }
         });
 
-        kelolaPenggunaBtn1.setText("Kelola Pengguna");
-        kelolaPenggunaBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
+        kelolaPenggunaBtn.setText("Kelola Pengguna");
+        kelolaPenggunaBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                kelolaPenggunaBtn1MouseClicked(evt);
+                kelolaPenggunaBtnMouseClicked(evt);
             }
         });
 
@@ -738,6 +727,13 @@ public class SalesAdmin extends javax.swing.JFrame {
             }
         });
 
+        tabelTransaksiBtn.setText("Tabel Transaksi");
+        tabelTransaksiBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelTransaksiBtnMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
@@ -750,14 +746,16 @@ public class SalesAdmin extends javax.swing.JFrame {
                 .addGap(66, 66, 66)
                 .addComponent(salesBtn5, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(kelolaBarangBtn1)
+                .addComponent(kelolaBarangBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pemutihanBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(kelolaPenggunaBtn1)
+                .addComponent(kelolaPenggunaBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(ubahHargaBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(tabelTransaksiBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
                 .addComponent(logoutBtn5)
                 .addGap(34, 34, 34))
         );
@@ -774,107 +772,12 @@ public class SalesAdmin extends javax.swing.JFrame {
                         .addGap(29, 29, 29)
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(salesBtn5)
-                            .addComponent(kelolaBarangBtn1)
+                            .addComponent(kelolaBarangBtn)
                             .addComponent(pemutihanBtn)
-                            .addComponent(kelolaPenggunaBtn1)
+                            .addComponent(kelolaPenggunaBtn)
                             .addComponent(logoutBtn5)
-                            .addComponent(ubahHargaBtn))))
-                .addContainerGap(21, Short.MAX_VALUE))
-        );
-
-        jPanel11.setBackground(new java.awt.Color(102, 153, 255));
-
-        jLabel20.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
-        jLabel20.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel20.setText("Selamat datang,");
-
-        jLabel22.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        jLabel22.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel22.setText("Admin");
-
-        salesBtn6.setText("Point of Sales");
-        salesBtn6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                salesBtn6MouseClicked(evt);
-            }
-        });
-
-        kelolaBarangBtn2.setText("Kelola Barang");
-        kelolaBarangBtn2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                kelolaBarangBtn2MouseClicked(evt);
-            }
-        });
-
-        pemutihanBtn1.setText("Pemutihan Barang");
-        pemutihanBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                pemutihanBtn1MouseClicked(evt);
-            }
-        });
-
-        kelolaPenggunaBtn2.setText("Kelola Pengguna");
-        kelolaPenggunaBtn2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                kelolaPenggunaBtn2MouseClicked(evt);
-            }
-        });
-
-        logoutBtn6.setText("Logout");
-        logoutBtn6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                logoutBtn6MouseClicked(evt);
-            }
-        });
-
-        ubahHargaBtn1.setText("Ubah Harga");
-        ubahHargaBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ubahHargaBtn1MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel20)
-                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(66, 66, 66)
-                .addComponent(salesBtn6, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(kelolaBarangBtn2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(pemutihanBtn1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(kelolaPenggunaBtn2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ubahHargaBtn1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
-                .addComponent(logoutBtn6)
-                .addGap(34, 34, 34))
-        );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel20)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel22))
-                    .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(salesBtn6)
-                            .addComponent(kelolaBarangBtn2)
-                            .addComponent(pemutihanBtn1)
-                            .addComponent(kelolaPenggunaBtn2)
-                            .addComponent(logoutBtn6)
-                            .addComponent(ubahHargaBtn1))))
+                            .addComponent(ubahHargaBtn)
+                            .addComponent(tabelTransaksiBtn))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -898,17 +801,12 @@ public class SalesAdmin extends javax.swing.JFrame {
                             .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
-            .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
+            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -926,11 +824,6 @@ public class SalesAdmin extends javax.swing.JFrame {
                         .addGap(0, 11, Short.MAX_VALUE))
                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(305, 305, 305)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(306, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1284,25 +1177,21 @@ public class SalesAdmin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_pilihBarangDropDownItemStateChanged
 
-    private void ubahHargaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ubahHargaBtnMouseClicked
-        UbahHarga ubahHargaPage = new UbahHarga();
-        ubahHargaPage.setVisible(true);
-        ubahHargaPage.setLocationRelativeTo(null);
+    private void salesBtn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salesBtn5MouseClicked
+        SalesAdmin PointofSalesPage = new SalesAdmin();
+        PointofSalesPage.setVisible(true);
+        PointofSalesPage.setLocationRelativeTo(null);
 
         this.setVisible(false);
-    }//GEN-LAST:event_ubahHargaBtnMouseClicked
+    }//GEN-LAST:event_salesBtn5MouseClicked
 
-    private void logoutBtn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtn5MouseClicked
-        logout();
-    }//GEN-LAST:event_logoutBtn5MouseClicked
-
-    private void kelolaPenggunaBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaPenggunaBtn1MouseClicked
-        KelolaPengguna kelolaPenggunaPage = new KelolaPengguna();
-        kelolaPenggunaPage.setVisible(true);
-        kelolaPenggunaPage.setLocationRelativeTo(null);
+    private void kelolaBarangBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaBarangBtnMouseClicked
+        KelolaBarang kelolaBarangPage = new KelolaBarang();
+        kelolaBarangPage.setVisible(true);
+        kelolaBarangPage.setLocationRelativeTo(null);
 
         this.setVisible(false);
-    }//GEN-LAST:event_kelolaPenggunaBtn1MouseClicked
+    }//GEN-LAST:event_kelolaBarangBtnMouseClicked
 
     private void pemutihanBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pemutihanBtnMouseClicked
         PemutihanBarang pemutihanPage = new PemutihanBarang();
@@ -1312,65 +1201,33 @@ public class SalesAdmin extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_pemutihanBtnMouseClicked
 
-    private void kelolaBarangBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaBarangBtn1MouseClicked
-        KelolaBarang kelolaBarangPage = new KelolaBarang();
-        kelolaBarangPage.setVisible(true);
-        kelolaBarangPage.setLocationRelativeTo(null);
-
-        this.setVisible(false);
-    }//GEN-LAST:event_kelolaBarangBtn1MouseClicked
-
-    private void salesBtn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salesBtn5MouseClicked
-        SalesAdmin PointofSalesPage = new SalesAdmin();
-        PointofSalesPage.setVisible(true);
-        PointofSalesPage.setLocationRelativeTo(null);
-
-        this.setVisible(false);
-    }//GEN-LAST:event_salesBtn5MouseClicked
-
-    private void salesBtn6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salesBtn6MouseClicked
-        SalesAdmin PointofSalesPage = new SalesAdmin();
-        PointofSalesPage.setVisible(true);
-        PointofSalesPage.setLocationRelativeTo(null);
-
-        this.setVisible(false);
-    }//GEN-LAST:event_salesBtn6MouseClicked
-
-    private void kelolaBarangBtn2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaBarangBtn2MouseClicked
-        KelolaBarang kelolaBarangPage = new KelolaBarang();
-        kelolaBarangPage.setVisible(true);
-        kelolaBarangPage.setLocationRelativeTo(null);
-
-        this.setVisible(false);
-    }//GEN-LAST:event_kelolaBarangBtn2MouseClicked
-
-    private void pemutihanBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pemutihanBtn1MouseClicked
-        PemutihanBarang pemutihanPage = new PemutihanBarang();
-        pemutihanPage.setVisible(true);
-        pemutihanPage.setLocationRelativeTo(null);
-
-        this.setVisible(false);
-    }//GEN-LAST:event_pemutihanBtn1MouseClicked
-
-    private void kelolaPenggunaBtn2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaPenggunaBtn2MouseClicked
+    private void kelolaPenggunaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaPenggunaBtnMouseClicked
         KelolaPengguna kelolaPenggunaPage = new KelolaPengguna();
         kelolaPenggunaPage.setVisible(true);
         kelolaPenggunaPage.setLocationRelativeTo(null);
 
         this.setVisible(false);
-    }//GEN-LAST:event_kelolaPenggunaBtn2MouseClicked
+    }//GEN-LAST:event_kelolaPenggunaBtnMouseClicked
 
-    private void logoutBtn6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtn6MouseClicked
+    private void logoutBtn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtn5MouseClicked
         logout();
-    }//GEN-LAST:event_logoutBtn6MouseClicked
+    }//GEN-LAST:event_logoutBtn5MouseClicked
 
-    private void ubahHargaBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ubahHargaBtn1MouseClicked
+    private void ubahHargaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ubahHargaBtnMouseClicked
         UbahHarga ubahHargaPage = new UbahHarga();
         ubahHargaPage.setVisible(true);
         ubahHargaPage.setLocationRelativeTo(null);
 
         this.setVisible(false);
-    }//GEN-LAST:event_ubahHargaBtn1MouseClicked
+    }//GEN-LAST:event_ubahHargaBtnMouseClicked
+
+    private void tabelTransaksiBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelTransaksiBtnMouseClicked
+        TabelTransaksi tabelTransaksiPage = new TabelTransaksi();
+        tabelTransaksiPage.setVisible(true);
+        tabelTransaksiPage.setLocationRelativeTo(null);
+
+        this.setVisible(false);
+    }//GEN-LAST:event_tabelTransaksiBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1421,13 +1278,10 @@ public class SalesAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
@@ -1435,27 +1289,22 @@ public class SalesAdmin extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jumlahTxt;
-    private javax.swing.JButton kelolaBarangBtn1;
-    private javax.swing.JButton kelolaBarangBtn2;
-    private javax.swing.JButton kelolaPenggunaBtn1;
-    private javax.swing.JButton kelolaPenggunaBtn2;
+    private javax.swing.JButton kelolaBarangBtn;
+    private javax.swing.JButton kelolaPenggunaBtn;
     private javax.swing.JLabel kembalianLbl;
     private javax.swing.JButton logoutBtn5;
-    private javax.swing.JButton logoutBtn6;
     private javax.swing.JButton minusBtn;
     private javax.swing.JButton okBtn;
     private javax.swing.JButton pemutihanBtn;
-    private javax.swing.JButton pemutihanBtn1;
     private javax.swing.JLabel persentaseDiskonLbl;
     private javax.swing.JComboBox<String> pilihBarangDropDown;
     private javax.swing.JButton plusBtn;
     private javax.swing.JButton prosesBtn;
     private javax.swing.JButton salesBtn5;
-    private javax.swing.JButton salesBtn6;
+    private javax.swing.JButton tabelTransaksiBtn;
     private javax.swing.JTable tableBarang;
     private javax.swing.JTable tableKeranjang;
     private javax.swing.JLabel totalLbl;
     private javax.swing.JButton ubahHargaBtn;
-    private javax.swing.JButton ubahHargaBtn1;
     // End of variables declaration//GEN-END:variables
 }
