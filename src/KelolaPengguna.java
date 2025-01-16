@@ -105,7 +105,6 @@ public class KelolaPengguna extends javax.swing.JFrame {
         kelolaPenggunaBtn = new javax.swing.JButton();
         logoutBtn5 = new javax.swing.JButton();
         ubahHargaBtn = new javax.swing.JButton();
-        tabelTransaksiBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -325,13 +324,6 @@ public class KelolaPengguna extends javax.swing.JFrame {
             }
         });
 
-        tabelTransaksiBtn.setText("Tabel Transaksi");
-        tabelTransaksiBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabelTransaksiBtnMouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
@@ -351,9 +343,7 @@ public class KelolaPengguna extends javax.swing.JFrame {
                 .addComponent(kelolaPenggunaBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(ubahHargaBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tabelTransaksiBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(logoutBtn5)
                 .addGap(34, 34, 34))
         );
@@ -374,8 +364,7 @@ public class KelolaPengguna extends javax.swing.JFrame {
                             .addComponent(pemutihanBtn)
                             .addComponent(kelolaPenggunaBtn)
                             .addComponent(logoutBtn5)
-                            .addComponent(ubahHargaBtn)
-                            .addComponent(tabelTransaksiBtn))))
+                            .addComponent(ubahHargaBtn))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -578,14 +567,6 @@ public class KelolaPengguna extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_ubahHargaBtnMouseClicked
 
-    private void tabelTransaksiBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelTransaksiBtnMouseClicked
-        TabelTransaksi tabelTransaksiPage = new TabelTransaksi();
-        tabelTransaksiPage.setVisible(true);
-        tabelTransaksiPage.setLocationRelativeTo(null);
-
-        this.setVisible(false);
-    }//GEN-LAST:event_tabelTransaksiBtnMouseClicked
-
     /**
      * @param args the command line arguments
      */
@@ -619,7 +600,6 @@ public class KelolaPengguna extends javax.swing.JFrame {
     private javax.swing.JButton pemutihanBtn;
     private javax.swing.JComboBox<String> roles_nameTxt;
     private javax.swing.JButton salesBtn5;
-    private javax.swing.JButton tabelTransaksiBtn;
     private javax.swing.JTable tablePengguna;
     private javax.swing.JButton tambahBtn;
     private javax.swing.JButton ubahBtn;
