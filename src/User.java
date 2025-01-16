@@ -34,7 +34,6 @@ public class User extends javax.swing.JFrame {
         salesBtn5 = new javax.swing.JButton();
         kelolaBarangBtn = new javax.swing.JButton();
         pemutihanBtn = new javax.swing.JButton();
-        kelolaPenggunaBtn = new javax.swing.JButton();
         logoutBtn5 = new javax.swing.JButton();
         ubahHargaBtn = new javax.swing.JButton();
 
@@ -73,13 +72,6 @@ public class User extends javax.swing.JFrame {
             }
         });
 
-        kelolaPenggunaBtn.setText("Kelola Pengguna");
-        kelolaPenggunaBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                kelolaPenggunaBtnMouseClicked(evt);
-            }
-        });
-
         logoutBtn5.setText("Logout");
         logoutBtn5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -110,10 +102,8 @@ public class User extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pemutihanBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(kelolaPenggunaBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(ubahHargaBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 326, Short.MAX_VALUE)
                 .addComponent(logoutBtn5)
                 .addGap(34, 34, 34))
         );
@@ -132,7 +122,6 @@ public class User extends javax.swing.JFrame {
                             .addComponent(salesBtn5)
                             .addComponent(kelolaBarangBtn)
                             .addComponent(pemutihanBtn)
-                            .addComponent(kelolaPenggunaBtn)
                             .addComponent(logoutBtn5)
                             .addComponent(ubahHargaBtn))))
                 .addContainerGap(21, Short.MAX_VALUE))
@@ -166,7 +155,7 @@ public class User extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void salesBtn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salesBtn5MouseClicked
-        SalesAdmin PointofSalesPage = new SalesAdmin();
+        SalesUser PointofSalesPage = new SalesUser();
         PointofSalesPage.setVisible(true);
         PointofSalesPage.setLocationRelativeTo(null);
 
@@ -174,7 +163,7 @@ public class User extends javax.swing.JFrame {
     }//GEN-LAST:event_salesBtn5MouseClicked
 
     private void kelolaBarangBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaBarangBtnMouseClicked
-        KelolaBarang kelolaBarangPage = new KelolaBarang();
+        KelolaBarangUser kelolaBarangPage = new KelolaBarangUser();
         kelolaBarangPage.setVisible(true);
         kelolaBarangPage.setLocationRelativeTo(null);
 
@@ -182,27 +171,19 @@ public class User extends javax.swing.JFrame {
     }//GEN-LAST:event_kelolaBarangBtnMouseClicked
 
     private void pemutihanBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pemutihanBtnMouseClicked
-        PemutihanBarang pemutihanPage = new PemutihanBarang();
+        PemutihanBarangUser pemutihanPage = new PemutihanBarangUser();
         pemutihanPage.setVisible(true);
         pemutihanPage.setLocationRelativeTo(null);
 
         this.setVisible(false);
     }//GEN-LAST:event_pemutihanBtnMouseClicked
 
-    private void kelolaPenggunaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kelolaPenggunaBtnMouseClicked
-        KelolaPengguna kelolaPenggunaPage = new KelolaPengguna();
-        kelolaPenggunaPage.setVisible(true);
-        kelolaPenggunaPage.setLocationRelativeTo(null);
-
-        this.setVisible(false);
-    }//GEN-LAST:event_kelolaPenggunaBtnMouseClicked
-
     private void logoutBtn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtn5MouseClicked
         logout();
     }//GEN-LAST:event_logoutBtn5MouseClicked
 
     private void ubahHargaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ubahHargaBtnMouseClicked
-        UbahHarga ubahHargaPage = new UbahHarga();
+        UbahHargaUser ubahHargaPage = new UbahHargaUser();
         ubahHargaPage.setVisible(true);
         ubahHargaPage.setLocationRelativeTo(null);
 
@@ -264,7 +245,6 @@ public class User extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JButton kelolaBarangBtn;
-    private javax.swing.JButton kelolaPenggunaBtn;
     private javax.swing.JButton logoutBtn5;
     private javax.swing.JButton pemutihanBtn;
     private javax.swing.JButton salesBtn5;

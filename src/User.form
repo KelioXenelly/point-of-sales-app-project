@@ -79,10 +79,8 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="pemutihanBtn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="kelolaPenggunaBtn" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="ubahHargaBtn" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="326" max="32767" attributes="0"/>
                       <Component id="logoutBtn5" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                   </Group>
@@ -104,7 +102,6 @@
                                   <Component id="salesBtn5" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="kelolaBarangBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="pemutihanBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="kelolaPenggunaBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="logoutBtn5" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="ubahHargaBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -164,14 +161,6 @@
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pemutihanBtnMouseClicked"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="kelolaPenggunaBtn">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Kelola Pengguna"/>
-              </Properties>
-              <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="kelolaPenggunaBtnMouseClicked"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="logoutBtn5">
