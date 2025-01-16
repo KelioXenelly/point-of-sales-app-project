@@ -50,7 +50,6 @@ public class Admin extends javax.swing.JFrame {
         kelolaPenggunaBtn = new javax.swing.JButton();
         logoutBtn5 = new javax.swing.JButton();
         ubahHargaBtn = new javax.swing.JButton();
-        tabelTransaksiBtn = new javax.swing.JButton();
 
         jMenu3.setText("File");
         jMenuBar2.add(jMenu3);
@@ -132,13 +131,6 @@ public class Admin extends javax.swing.JFrame {
             }
         });
 
-        tabelTransaksiBtn.setText("Tabel Transaksi");
-        tabelTransaksiBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabelTransaksiBtnMouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -158,9 +150,7 @@ public class Admin extends javax.swing.JFrame {
                 .addComponent(kelolaPenggunaBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(ubahHargaBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tabelTransaksiBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 191, Short.MAX_VALUE)
                 .addComponent(logoutBtn5)
                 .addGap(34, 34, 34))
         );
@@ -181,8 +171,7 @@ public class Admin extends javax.swing.JFrame {
                             .addComponent(pemutihanBtn)
                             .addComponent(kelolaPenggunaBtn)
                             .addComponent(logoutBtn5)
-                            .addComponent(ubahHargaBtn)
-                            .addComponent(tabelTransaksiBtn))))
+                            .addComponent(ubahHargaBtn))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -271,14 +260,6 @@ public class Admin extends javax.swing.JFrame {
 
         this.setVisible(false);
     }//GEN-LAST:event_ubahHargaBtnMouseClicked
-
-    private void tabelTransaksiBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelTransaksiBtnMouseClicked
-        TabelTransaksi tabelTransaksiPage = new TabelTransaksi();
-        tabelTransaksiPage.setVisible(true);
-        tabelTransaksiPage.setLocationRelativeTo(null);
-
-        this.setVisible(false);
-    }//GEN-LAST:event_tabelTransaksiBtnMouseClicked
          
     /**
      * @param args the command line arguments
@@ -337,7 +318,6 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JButton logoutBtn5;
     private javax.swing.JButton pemutihanBtn;
     private javax.swing.JButton salesBtn5;
-    private javax.swing.JButton tabelTransaksiBtn;
     private javax.swing.JButton ubahHargaBtn;
     // End of variables declaration//GEN-END:variables
 }
