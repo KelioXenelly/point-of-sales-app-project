@@ -37,7 +37,6 @@ public class KelolaBarang extends javax.swing.JFrame {
                  + "FROM barang "
                  + "LEFT JOIN kodebarang ON barang.kode_barang_id = kodebarang.kode_barang_id "
                  + "LEFT JOIN detailbarang ON barang.barang_id = detailbarang.barang_id "
-                 + "WHERE detailbarang.qty > 0 "
                  + "ORDER BY kode_barang ASC";
     koneksi conn = new koneksi();
     

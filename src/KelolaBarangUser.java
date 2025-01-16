@@ -37,7 +37,6 @@ public class KelolaBarangUser extends javax.swing.JFrame {
                  + "FROM barang "
                  + "LEFT JOIN kodebarang ON barang.kode_barang_id = kodebarang.kode_barang_id "
                  + "LEFT JOIN detailbarang ON barang.barang_id = detailbarang.barang_id "
-                 + "WHERE detailbarang.qty > 0 "
                  + "ORDER BY kode_barang ASC";
     koneksi conn = new koneksi();
     
@@ -770,7 +769,7 @@ public class KelolaBarangUser extends javax.swing.JFrame {
                 Thread.sleep(1000);
                 refreshTable();
 
-                KelolaBarang kelolaBarangPage = new KelolaBarang();
+                KelolaBarangUser kelolaBarangPage = new KelolaBarangUser();
                 kelolaBarangPage.setVisible(true); 
                 kelolaBarangPage.setLocationRelativeTo(null);
                 this.setVisible(false);
