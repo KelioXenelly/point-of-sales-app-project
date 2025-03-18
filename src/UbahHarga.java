@@ -103,7 +103,8 @@ public class UbahHarga extends javax.swing.JFrame {
                     + "LEFT JOIN barang ON barang.barang_id = revisihargajual.barang_id "
                     + "LEFT JOIN detailbarang ON barang.barang_id = detailbarang.barang_id "
                     + "LEFT JOIN kodebarang ON barang.kode_barang_id = kodebarang.kode_barang_id "
-                    + "GROUP BY barang.nama_barang "
+                    + "GROUP BY kodebarang.kode_barang, nama_barang, tanggal_revisi, harga_jual_lama, "
+                    + "harga_jual_baru, revisihargajual.keterangan "
                     + "ORDER BY tanggal_revisi ASC");
             this.rs = this.stm.executeQuery();
             int i = 1;
